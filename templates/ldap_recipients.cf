@@ -1,0 +1,10 @@
+server_host = 127.0.0.1
+version = 3
+search_base = ou=users,dc={{ DC2 }},dc={{ DC1 }}
+bind_dn = uid=cyrus,ou=users,dc={{ DC2 }},dc={{ DC1 }}
+bind_pw = {{ LDAPBINDPW }}
+#query_filter = (|(mail=%s)(uid=%s))
+#query_filter = (&(!(gidNumber={{GIDNUMBER }}))(|(mail=%s)(uid=%s)))
+query_filter = (&(&(!(gidNumber={{ GIDNUMBER }}))(!(gidNumber=35)))(|(mail=%s)(uid=%s)))
+result_attribute = uid
+result_format = %s@localhost
