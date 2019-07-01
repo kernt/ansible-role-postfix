@@ -1,0 +1,37 @@
+---
+# https://docs.ansible.com/ansible/latest/modules/mail_module.html#mail-module
+
+- name: Sending an e-mail using Gmail SMTP servers
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: username@gmail.com
+    password: mysecret
+    to: John Smith <{{ ansible_user }}@{{ base_domain }}>
+    subject: Ansible-report
+    body: System {{ ansible_hostname }} has been successfully provisioned.
+  delegate_to: localhost
+
+- name: Sending an e-mail using Legacy SSL to the remote machine
+  mail:
+    host: localhost
+    port: 25
+    to: John Smith <john.smith@example.com>
+    subject: Ansible-report
+    body: System {{ ansible_hostname }} has been successfully provisioned.
+    secure: always
+    
+- name: Sending an e-mail using StartTLS to the remote machine
+  mail:
+    host: localhost
+    port: 25
+    to: John Smith <john.smith@example.com>
+    subject: Ansible-report
+    body: System {{ ansible_hostname }} has been successfully provisioned.
+    secure: starttls
+
+- name: Example playbook sending mail to root
+  mail:
+    subject: System {{ ansible_hostname }} has been successfully provisioned.
+  delegate_to: localhost
+
