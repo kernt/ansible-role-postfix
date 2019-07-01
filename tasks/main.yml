@@ -1,4 +1,10 @@
 ---
+# https://github.com/mrlesmithjr/ansible-postfix/tree/master/templates
+# https://github.com/practical-ansible/mail/blob/master/defaults/main.yml
+# https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
+# https://github.com/practical-ansible/mail
+# https://github.com/Oefenweb/ansible-postfix
+# 
 - name: Verify base domain is set
   fail:
     msg: >

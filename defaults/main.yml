@@ -1,6 +1,5 @@
 ## base configurations
-# https://github.com/practical-ansible/mail/blob/master/defaults/main.yml
-# 
+
 SERVER_ROLE: ""
 base_domain: "example.com"
 mail_host: 'mail.{{ base_domain }}'
