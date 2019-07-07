@@ -1,50 +1,102 @@
 ## base configurations
-
-SERVER_ROLE: ""
-base_domain: "example.com"
-mail_host: 'mail.{{ base_domain }}'
-mail_user: "vmail"
-mail_group: "vmail"
-mail_dir_postfix_config: /etc/postfix
-mail_dir_storage: "/srv/mail"
+configure_postfix_type: "template" # or generic for migration with postconf
+postfix_server_role: "master"
+postfix_base_domain: "oshsl.de"
+postfix_mail_host: 'mail.{{ postfix_base_domain }}'
+postfix_mail_user: "vmail"
+postfix_mail_group: "vmail"
+postfix_mail_dir_postfix_config: /etc/postfix
+postfix_mail_dir_storage: "/srv/mail"
 imap_service: "dovecot"
 postfix_config_file: /etc/postfix/main.cf
+enable_postfix_domain_rewrite: "false"
+postfix_rewrite_domain: "oshsl.de"
 
-# Postfix service
+# Postfix service Configuration
 postfix_service_state: started
 postfix_service_enabled: true
-
 postfix_inet_interfaces: localhost
 postfix_inet_protocols: all
+postfix_mynetworks: 
+  - '127.0.0.0/8'
+#  - '10.0.101.0/24'
+#  - '172.16.0.0/16'
+#  - '192.168.0.0/16'
 
-# set your rols 
-role_for_dkim: ""
-role_for_amavis: ""
-role_for_dovecot: 
+# set your rols
+role_for_dkim: "ansible_role_opendkm"
+enable_role_dkim: "false"
+enable_postifx_dkim: "true"
+role_for_amavis: "ansible_role_amavis"
+enable_role_amavis: "false"
+enable_postfix_amavis: "false"
+role_for_dovecot: "ansible_role_dovecot"
+enable_role_dovecot: "false"
+enable_postfix_dovecot: "true"
 
-
+# Postfix testing
 enable_send_testmail: "true"
-## realy Server
+google_username: ""
+# Get a token frim google: https://security.google.com/settings/security/apppasswords, https://www.linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/
+google_token: ""
 
+## realy Server Configuration
+# Defines if a relay host should be used
+postfixsmtp_sasl_auth_enable: true
+sasl_user: ""
+sasl_imap_user_pw: ""
 
-## Satilite Server
+# Postfix server
+smtpd_tls_dir: ""
+smtpd_tls_cert_file: "{{ smtpd_postfix_dir }}/{{ ansible_host_domain }}"
 
+# Postfix smtp
+postfix_smtp_generic_maps: 
+
+## Postfix Mapping
+postfix_domain_rewrite_filetype: "hash"
+
+# access
+enable_access_maps: "yes"
+postfix_access_maps: []
+
+# alias
+enable_alias_maps: "yes"
+postfix_alias_maps: []
+
+# sender_canonical_maps
+enable_canonical_maps: "yes"
+postfix_canonical_maps: []
 
 # resive mails
 # https://github.com/mrlesmithjr/ansible-postfix/blob/master/templates/canonical.j2
-enable_sender_canonical: "yes"
-postfix_sender_canonical_maps: []
+enable_resieve: "no"
+postfix_resieve_maps: []
 
-## Postfix User MGMNT
+# generic
+enable_generic_maps: "yes"
+postfix_generic_maps: []
+
+# recocated
+enable_relocated_maps: "no"
+postfix_relocated_maps: []
+
+# transport for some diffent domains
+enable_transport_maps: "yes"
+postfix_transport_maps: []
+
+# virtual 
+enable_virtual_maps: "yes"
+postfix_transport_maps: []
+
+## Postfix User MGMNT beckends
 mail_users_backend: "mysql"
 # for ldap
 # mail_ldap_host: '127.0.0.1'
 # 
 # for mysql
 
-
 ## Postfix aci_interface_policy_port_security:
-
 
 ## Postfix antisam
 enable_amavis: "true"
@@ -54,11 +106,13 @@ enable_clamav: "true"
 
 ## Postfix SASL apiVersion: v1
 
-
 ## Postfix TLS parameters
-main_smtpd_use_tls: "yes"
+postfix_smtpd_use_tls: "yes"
+postfix_smtpd_tls_cert_file: ""
+postfix smtpd_tls_key_file: ""
+postfix_smtp_tls_cert_file: ""
+postfix_smtp_tls_key_file: ""
+
 ## Configure certificates
 enable_postfix_certbot: "false"
 # mail_admin_address= "max@musterman.com"
-smtpd_tls_dir: ""
-smtpd_tls_cert_file: "{{ smtpd_postfix_dir }}/{{ ansible_host_domain }}"

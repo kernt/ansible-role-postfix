@@ -16,6 +16,7 @@
   package:
     name: postfix
     state: present
+  tags: [postfix]
 
 - name: Checking to make sure mailutils is installed if Debian os is used.
   apt:
@@ -44,18 +45,6 @@
   when: >
         ansible_os_family == "RedHat" and
         ansible_distribution == "Fedora"
-
-# Original by https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
-- name: Create canonical maps if enabled
-  template:
-    src: "canonical.j2"
-    dest: "{{ postfix_conf_dir }}/canonical"
-    mode: 0644
-    owner: "root"
-    group: "root"
-  tags: [postfix]
-  notify: restart postfix
-  when: enable_sender_canonical
 
 - name: Ensure postfix is started and enabled at system boot.
   systemd:

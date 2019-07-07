@@ -2,14 +2,94 @@
 # Idee by https://github.com/geerlingguy/ansible-role-postfix/blob/master/tasks/main.yml
 # Just for the Base Configuration
 # Is easest to manage because you don't have to the j2 file template.
-- name: Update Postfix configuration.
+- name: Update Postfix generic configuration.
   lineinfile:
     dest: "{{ postfix_config_file }}"
     line: "{{ item.name }} = {{ item.value }}"
-    regexp: "^{{ item.name }} ="
+    regexp: "^{{ item.name }} = "
   with_items:
     - name: inet_interfaces
       value: "{{ postfix_inet_interfaces }}"
     - name: inet_protocols
       value: "{{ postfix_inet_protocols }}"
   notify: restart postfix
+  when: configure_postfix_type is "generic"
+
+# https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
+  - name: Create postfix configuration main.cf via template
+  template:
+    src: "main.cf.j2"
+    dest: "{{ postfix_conf_dir }}/main.cf"
+    mode: 0644
+    owner: "root"
+    group: "root"
+  tags: [postfix]
+  register: postfix
+  notify: restart postfix
+  when: configure_postfix_type is "template"
+
+# Original by https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
+- name: Create canonical maps if enabled
+  template:
+    src: "canonical.j2"
+    dest: "{{ postfix_conf_dir }}/canonical"
+    mode: 0644
+    owner: "root"
+    group: "root"
+  tags: [postfix]
+  notify: start postmap
+  when: enable_sender_canonical and configure_postfix_type is "template"
+
+- name: Create postfix configuration 'generic'
+  template:
+    src: "{{ postfix_generic_template }}"
+    dest: "{{ postfix_conf_dir }}/generic"
+    mode: 0644
+    owner: "root"
+    group: "root"
+  tags: [postfix]
+  register: postfix
+  notify: restart postfix
+  when: and configure_postfix_type is "template"
+
+- name: rebuilding access.db
+  command: "postmap /etc/postfix/access"
+  tags: [postfix]
+  notify: restart postfix
+  when: >
+        postfix.changed and
+        postfix_domain_rewrite_filetype == 'hash'
+
+- name: rebuilding aliases.db
+  command: "postmap /etc/aliases"
+  tags: [postfix]
+  notify: restart postfix
+  when: >
+        postfix.changed and
+        postfix_domain_rewrite_filetype == 'hash'
+
+- name: rebuilding resieve.db
+  command: "postmap /etc/postfix/resieve"
+  vars:
+    - postmapfile: "/etc/postfix/resieve"
+  tags: [postfix]
+  notify: restart postfix
+  when: >
+        postfix.changed and
+        postfix_domain_rewrite_filetype == 'hash'
+
+- name: rebuilding generic.db
+  command: "postmap /etc/postfix/generic"
+  tags: [postfix]
+  notify: restart postfix
+  when: >
+        postfix.changed and
+        postfix_domain_rewrite_filetype == 'hash'
+
+- name: rebuilding access.db
+  command: "postmap /etc/postfix/access"
+  tags: [postfix]
+  notify: restart postfix
+  when: >
+        postfix.changed and
+        postfix_domain_rewrite_filetype == 'hash'

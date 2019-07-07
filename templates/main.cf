@@ -14,13 +14,14 @@ readme_directory = no
 smtpd_recipient_restrictions = check_client_access hash:/etc/postfix/access, reject
 smtp_generic_maps = hash:/etc/postfix/generic
 
-# TLS parameters
+# TLS server parameters
 smtpd_use_tls=yes
 smtpd_tls_cert_file=/etc/ssl/cft/STAR_comfortticket_de.crt
 smtpd_tls_key_file=/etc/ssl/cft/STAR_comfortticket_de.key
 smtpd_tls_CAfile=/etc/ssl/cft/STAR_comfortticket_de.ca-bundle
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 
+# TLS client parameters
 smtp_use_tls = yes
 smtp_tls_cert_file=/etc/ssl/cft/STAR_comfortticket_de.crt
 smtp_tls_key_file=/etc/ssl/cft/STAR_comfortticket_de.key
@@ -40,7 +41,7 @@ alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 myorigin = /etc/mailname
 mydestination = host.FQDN, localhost.localdomain, localhost
-relayhost = mail.comfortticket.de
+relayhost = {{ postfix.relayhost }}
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 transport_maps = hash:/etc/postfix/transport
 sender_canonical_maps = hash:/etc/postfix/sender_canonical
