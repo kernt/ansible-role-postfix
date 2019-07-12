@@ -11,7 +11,7 @@
       Mail domain must be defined set env variable PRACTICAL_MAIL_DOMAIN
       to your desired domain name
     # fatal: [vmd36612]: FAILED! => {"changed": false, "msg": "Invalid options for fail: when"}
-    #when: not base_domain
+    when:  not postfix_base_domain
 
 - name: Ensure postfix is installed.
   package:
