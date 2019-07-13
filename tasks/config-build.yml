@@ -16,7 +16,7 @@
   when: configure_postfix_type is "generic"
 
 # https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
-  - name: Create postfix configuration main.cf via template
+- name: Create postfix configuration main.cf via template
   template:
     src: "main.cf.j2"
     dest: "{{ postfix_conf_dir }}/main.cf"

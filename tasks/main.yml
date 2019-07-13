@@ -52,8 +52,13 @@
      state: "{{ postfix_service_state }}"
      enabled: "{{ postfix_service_enabled }}"
 
-- include_tasks: testmail.yml
+- name: Include tasks for testmail
+  include_tasks: testmail.yml
   when: enable_send_testmail
-- include_tasks: config-build.yml
-- include_tasks: certificates.yml
+
+- name: Include tasks for config-build
+  include_tasks: config-build.yml
+
+- name: Include tasks for certificates
+  include_tasks: certificates.yml
   when: enable_postfix_certbot
