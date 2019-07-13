@@ -19,6 +19,8 @@ postfix_inet_interfaces: localhost
 postfix_inet_protocols: all
 postfix_mynetworks: 
   - '127.0.0.0/8'
+  - '172.17.0.0/16'
+  - '173.249.30.75/24'
 #  - '10.0.101.0/24'
 #  - '172.16.0.0/16'
 #  - '192.168.0.0/16'
@@ -26,13 +28,13 @@ postfix_mynetworks:
 # set your rols
 role_for_dkim: "ansible_role_opendkm"
 enable_role_dkim: "false"
-enable_postifx_dkim: "true"
+enable_postifx_dkim: "false"
 role_for_amavis: "ansible_role_amavis"
 enable_role_amavis: "false"
 enable_postfix_amavis: "false"
 role_for_dovecot: "ansible_role_dovecot"
 enable_role_dovecot: "false"
-enable_postfix_dovecot: "true"
+enable_postfix_dovecot: "false"
 
 # Postfix testing
 enable_send_testmail: "false"
@@ -42,22 +44,22 @@ google_token: ""
 
 ## realy Server Configuration
 # Defines if a relay host should be used
-postfixsmtp_sasl_auth_enable: true
+postfixsmtp_sasl_auth_enable: "false"
 sasl_user: ""
 sasl_imap_user_pw: ""
+smtp_tls_dir: "/etc/letsencrypt/live/vmd36612.contaboserver.net"
 
 # Postfix server
-smtpd_tls_dir: ""
-smtpd_tls_cert_file: "{{ smtpd_postfix_dir }}/{{ ansible_host_domain }}"
+smtpd_tls_dir: "/etc/letsencrypt/live/vmd36612.contaboserver.net"
 
 # Postfix smtp
-postfix_smtp_generic_maps: 
+postfix_smtp_generic_maps: []
 
 ## Postfix Mapping
 postfix_domain_rewrite_filetype: "hash"
 
 # access
-enable_access_maps: "yes"
+enable_access_maps: "false"
 postfix_access_maps: []
 
 # alias
@@ -65,29 +67,29 @@ enable_alias_maps: "yes"
 postfix_alias_maps: []
 
 # sender_canonical_maps
-enable_canonical_maps: "yes"
+enable_canonical_maps: "false"
 postfix_canonical_maps: []
 
 # resive mails
 # https://github.com/mrlesmithjr/ansible-postfix/blob/master/templates/canonical.j2
-enable_resieve: "no"
+enable_resieve: "false"
 postfix_resieve_maps: []
 
 # generic
-enable_generic_maps: "yes"
+enable_generic_maps: "false"
 postfix_generic_maps: []
 
 # recocated
-enable_relocated_maps: "no"
+enable_relocated_maps: "false"
 postfix_relocated_maps: []
 
 # transport for some diffent domains
-enable_transport_maps: "yes"
+enable_transport_maps: "false"
 postfix_transport_maps: []
 
 # virtual 
-enable_virtual_maps: "yes"
-postfix_transport_maps: []
+enable_virtual_maps: "false"
+postfix_virtual_maps: []
 
 ## Postfix User MGMNT beckends
 mail_users_backend: "mysql"
@@ -99,19 +101,19 @@ mail_users_backend: "mysql"
 ## Postfix aci_interface_policy_port_security:
 
 ## Postfix antisam
-enable_amavis: "true"
+enable_amavis: "false"
 
 ## Postfix security
-enable_clamav: "true" 
+enable_clamav: "false" 
 
 ## Postfix SASL apiVersion: v1
 
 ## Postfix TLS parameters
 postfix_smtpd_use_tls: "yes"
-postfix_smtpd_tls_cert_file: ""
-postfix smtpd_tls_key_file: ""
-postfix_smtp_tls_cert_file: ""
-postfix_smtp_tls_key_file: ""
+postfix_smtpd_tls_cert_file: "{{smtpd_tls_dir}}/cert.pem"
+postfix smtpd_tls_key_file: "{{smtpd_tls_dir}}/privkey.pem"
+postfix_smtp_tls_cert_file: "{{smtp_tls_dir}}/cert.pem"
+postfix_smtp_tls_key_file: "{{smtp_tls_dir}}/privkey.pem"
 
 ## Configure certificates
 enable_postfix_certbot: "false"
