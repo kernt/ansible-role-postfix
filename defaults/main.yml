@@ -35,7 +35,7 @@ enable_role_dovecot: "false"
 enable_postfix_dovecot: "true"
 
 # Postfix testing
-enable_send_testmail: "true"
+enable_send_testmail: "false"
 google_username: ""
 # Get a token frim google: https://security.google.com/settings/security/apppasswords, https://www.linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/
 google_token: ""
