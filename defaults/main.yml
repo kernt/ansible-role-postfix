@@ -21,9 +21,6 @@ postfix_mynetworks:
   - '127.0.0.0/8'
   - '172.17.0.0/16'
   - '173.249.30.75/24'
-#  - '10.0.101.0/24'
-#  - '172.16.0.0/16'
-#  - '192.168.0.0/16'
 
 # set your rols
 role_for_dkim: "ansible_role_opendkm"
