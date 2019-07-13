@@ -13,7 +13,7 @@
     - name: inet_protocols
       value: "{{ postfix_inet_protocols }}"
   notify: restart postfix
-  when: configure_postfix_type is "generic"
+  when: configure_postfix_type == "generic"
 
 # https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
 - name: Create postfix configuration main.cf via template
