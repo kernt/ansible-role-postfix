@@ -4,12 +4,10 @@ append_dot_mydomain = no
 # Uncomment the next line to generate "delayed mail" warnings
 #delay_warning_time = 4h
 readme_directory = no
-
 smtpd_recipient_restrictions = check_client_access hash:/etc/postfix/access, reject
-smtp_generic_maps = hash:/etc/postfix/generic
 
 # TLS server parameters
-{% if postfix_smtpd_use_tls is not defined %}
+{% if postfix_smtpd_use_tls is defined and yes or true %}
 smtpd_use_tls=yes
 smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
 smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
@@ -22,17 +20,17 @@ smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 smtpd_relay_restrictions = = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
 {% endif %}
 # TLS client parameters
-{% if postfix_use_tls is not defined %}
+{% if postfix_use_tls is not defined or false %}
 smtp_use_tls = yes
-smtp_tls_cert_file= {{postfix_smtp_tls_cert_file}}
-smtp_tls_key_file= {{postfix_smtp_tls_key_file}}
+smtp_tls_cert_file= {{ postfix_smtp_tls_cert_file }}
+smtp_tls_key_file= {{ postfix_smtp_tls_key_file }}
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 
-{% if enable_postfix_domain_rewrite is true and variable|length %}
-smtp_generic_maps = {{ postfix_domain_rewrite_filetype }}:{{ postfix_conf_dir }}/generic
+{% if enable_postfix_domain_rewrite is defined and variable|length %}
+smtp_generic_maps = {{ postfix_domain_rewrite_filetype }}:{{ postfix_mail_dir_postfix_config }}/generic
 {% endif %}
 
-{% if enable_postifx_dkim is true and variable|length %}
+{% if enable_postifx_dkim is defined and variable|length %}
 smtpd_milters           = inet:127.0.0.1:8891
 non_smtpd_milters       = $smtpd_milters
 milter_default_action   = accept
@@ -49,17 +47,17 @@ smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
 
-myhostname = {{ansible_fqdn}}
+myhostname = {{ ansible_fqdn }}
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 myorigin = /etc/mailname
-mydestination = {{ansible_fqdn}}, localhost
-relayhost = {{ postfix.relayhost }}
+mydestination = {{ ansible_fqdn }}, localhost
+relayhost = {{ postfix_reley_host }}
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
-{% if enable_transport_maps is true %}}
+{% if enable_transport_maps is defined and yes or true %}}
 transport_maps = hash:/etc/postfix/transport
 {% endif %}}
-{% if enable_sender_canonical_maps is true %}}
+{% if enable_sender_canonical_maps is defined  and yes or true %}}
 sender_canonical_maps = hash:/etc/postfix/sender_canonical
 {% endif %}}
 mailbox_size_limit = 0
@@ -67,6 +65,6 @@ recipient_delimiter = +
 inet_interfaces = all
 inet_protocols = all
 {% if postfix_rewrite_domain is defined and enable_postfix_domain_rewrite %}
-mydomain = {{postfix_rewrite_domain}}
+mydomain = {{ postfix_rewrite_domain }}
 {% endif %}
 message_size_limit = 33554400

@@ -11,6 +11,7 @@ imap_service: "dovecot"
 postfix_config_file: /etc/postfix/main.cf
 enable_postfix_domain_rewrite: "false"
 postfix_rewrite_domain: "oshsl.de"
+postfix_reley_host: "oshsl.de"
 
 # Postfix service Configuration
 postfix_service_state: started
