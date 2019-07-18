@@ -31,7 +31,7 @@
 # Original by https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
 - name: Create canonical maps if enabled
   template:
-    src: "canonical.j2"
+    src: "/hash/canonical.j2"
     dest: "{{ postfix_mail_dir_postfix_config }}/canonical"
     mode: 0644
     owner: "root"
@@ -42,7 +42,7 @@
 
 - name: Create postfix configuration 'generic'
   template:
-    src: "{{ enable_generic_maps }}"
+    src: "/hash/generic.j2"
     dest: "{{ postfix_mail_dir_postfix_config }}/generic"
     mode: 0644
     owner: "root"
