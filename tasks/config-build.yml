@@ -19,7 +19,7 @@
 - name: Create postfix configuration main.cf via template
   template:
     src: "main.cf.j2"
-    dest: "{{ postfix_conf_dir }}/main.cf"
+    dest: "{{ postfix_mail_dir_postfix_config }}/main.cf"
     mode: 0644
     owner: "root"
     group: "root"
