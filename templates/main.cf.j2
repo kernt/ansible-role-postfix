@@ -7,7 +7,7 @@ readme_directory = no
 smtpd_recipient_restrictions = check_client_access hash:/etc/postfix/access, reject
 
 # TLS server parameters
-{% if postfix_smtpd_use_tls is defined %}
+{% if postfix_smtpd_use_tls is not defined %}
 smtpd_use_tls=yes
 smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
 smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
