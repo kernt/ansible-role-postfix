@@ -32,18 +32,18 @@
 - name: Create canonical maps if enabled
   template:
     src: "canonical.j2"
-    dest: "{{ postfix_conf_dir }}/canonical"
+    dest: "{{ postfix_mail_dir_postfix_config }}/canonical"
     mode: 0644
     owner: "root"
     group: "root"
   tags: [postfix]
   notify: start postmap
-  when: enable_sender_canonical and configure_postfix_type is "template"
+  when: enable_canonical_maps and configure_postfix_type is "template"
 
 - name: Create postfix configuration 'generic'
   template:
-    src: "{{ postfix_generic_template }}"
-    dest: "{{ postfix_conf_dir }}/generic"
+    src: "{{ enable_generic_maps }}"
+    dest: "{{ postfix_mail_dir_postfix_config }}/generic"
     mode: 0644
     owner: "root"
     group: "root"
