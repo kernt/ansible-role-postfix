@@ -1,4 +1,4 @@
-smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
+smtpd_banner = $myhostname ESMTP $mail_name
 biff = no
 append_dot_mydomain = no
 # Uncomment the next line to generate "delayed mail" warnings
@@ -7,26 +7,26 @@ readme_directory = no
 smtpd_recipient_restrictions = check_client_access hash:/etc/postfix/access, reject
 
 # TLS server parameters
-{% if postfix_smtpd_use_tls is defined and yes or true %}
+{% if postfix_smtpd_use_tls is defined %}
 smtpd_use_tls=yes
 smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
 smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
 {% else %}
 smtpd_use_tls=yes
-smtpd_tls_cert_file={{postfix_smtpd_tls_cert_file}}
-smtpd_tls_key_file={{postfix smtpd_tls_key_file}}
-#smtpd_tls_CAfile=/etc/ssl/bundle
+smtpd_tls_cert_file={{ postfix_smtpd_tls_cert_file }}
+smtpd_tls_key_file={{ postfix smtpd_tls_key_file }}
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
-smtpd_relay_restrictions = = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
 {% endif %}
 # TLS client parameters
-{% if postfix_use_tls is not defined or false %}
+{% if postfix_use_tls is defined %}
 smtp_use_tls = yes
 smtp_tls_cert_file= {{ postfix_smtp_tls_cert_file }}
 smtp_tls_key_file= {{ postfix_smtp_tls_key_file }}
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+{% endif %}}
 
-{% if enable_postfix_domain_rewrite is defined and variable|length %}
+{% if enable_postfix_domain_rewrite is variable|length %}
 smtp_generic_maps = {{ postfix_domain_rewrite_filetype }}:{{ postfix_mail_dir_postfix_config }}/generic
 {% endif %}
 
@@ -54,10 +54,10 @@ myorigin = /etc/mailname
 mydestination = {{ ansible_fqdn }}, localhost
 relayhost = {{ postfix_reley_host }}
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
-{% if enable_transport_maps is defined and yes or true %}}
+{% if enable_transport_maps is defined %}}
 transport_maps = hash:/etc/postfix/transport
 {% endif %}}
-{% if enable_sender_canonical_maps is defined  and yes or true %}}
+{% if enable_sender_canonical_maps is defined %}}
 sender_canonical_maps = hash:/etc/postfix/sender_canonical
 {% endif %}}
 mailbox_size_limit = 0
