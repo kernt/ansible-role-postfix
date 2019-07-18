@@ -108,10 +108,10 @@ enable_clamav: "false"
 
 ## Postfix TLS parameters
 postfix_smtpd_use_tls: "yes"
-postfix_smtpd_tls_cert_file: "{{smtpd_tls_dir}}/cert.pem"
-postfix smtpd_tls_key_file: "{{smtpd_tls_dir}}/privkey.pem"
-postfix_smtp_tls_cert_file: "{{smtp_tls_dir}}/cert.pem"
-postfix_smtp_tls_key_file: "{{smtp_tls_dir}}/privkey.pem"
+postfix_smtpd_tls_cert_file: "{{ smtpd_tls_dir }}/cert.pem"
+postfix smtpd_tls_key_file: "{{ smtpd_tls_dir }}/privkey.pem"
+postfix_smtp_tls_cert_file: "{{ smtp_tls_dir }}/cert.pem"
+postfix_smtp_tls_key_file: "{{ smtp_tls_dir }}/privkey.pem"
 
 ## Configure certificates
 enable_postfix_certbot: "false"
