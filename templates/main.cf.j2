@@ -1,10 +1,7 @@
 smtpd_banner = $myhostname ESMTP $mail_name
 biff = no
 append_dot_mydomain = no
-# Uncomment the next line to generate "delayed mail" warnings
-#delay_warning_time = 4h
 readme_directory = no
-smtpd_recipient_restrictions = check_client_access hash:/etc/postfix/access, reject
 
 # TLS server parameters
 {% if postfix_smtpd_use_tls is not defined %}
