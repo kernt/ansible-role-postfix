@@ -38,7 +38,7 @@
     group: "root"
   tags: [postfix]
   notify: start postmap
-  when: enable_canonical_maps and configure_postfix_type is "template"
+  when: enable_canonical_maps and configure_postfix_type is == "template"
 
 - name: Create postfix configuration 'generic'
   template:
@@ -50,7 +50,7 @@
   tags: [postfix]
   register: postfix
   notify: restart postfix
-  when: and configure_postfix_type is "template"
+  when: enable_generic_maps and configure_postfix_type is == 'template'
 
 - name: rebuilding access.db
   command: "postmap /etc/postfix/access"
