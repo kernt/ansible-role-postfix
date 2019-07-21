@@ -11,5 +11,14 @@
     state: "reloaded"
   when: not ansible_check_mode
 
-- name: start postmap
-  command: postmap {{postmapfile}}
+- name: handler_postmap_canonical
+  command: postmap {{ postfix_mail_dir_postfix_config }}/canonical
+
+- name: handler_postmap_generic
+  command: postmap {{ postfix_mail_dir_postfix_config }}/generic
+
+- name: handler_postmap_access
+  command: postmap {{ postfix_mail_dir_postfix_config }}/access
+
+- name: handler_postmap_canonical
+  command: postmap {{ postfix_mail_dir_postfix_config }}/canonical

@@ -37,7 +37,7 @@
     owner: "root"
     group: "root"
   tags: [postfix]
-  notify: start postmap
+  notify: handler_postmap_canonical
   when: enable_canonical_maps and configure_postfix_type == "template"
 
 - name: Create postfix configuration 'generic'
@@ -49,13 +49,15 @@
     group: "root"
   tags: [postfix]
   register: postfix
-  notify: restart postfix
+  notify: handler_postmap_generic
   when: enable_generic_maps and configure_postfix_type == 'template'
 
 - name: rebuilding access.db
   command: "postmap /etc/postfix/access"
   tags: [postfix]
-  notify: restart postfix
+  notify: 
+    - handler_postmap_access
+    - reload postfix
   when: >
         postfix.changed and
         postfix_domain_rewrite_filetype == 'hash'
