@@ -22,3 +22,6 @@
 
 - name: handler_postmap_canonical
   command: postmap {{ postfix_mail_dir_postfix_config }}/canonical
+
+- name: postfix-postalias
+  command: postalias /etc/aliases
