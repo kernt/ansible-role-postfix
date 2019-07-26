@@ -1,3 +1,4 @@
+---
 ## base configurations
 configure_postfix_type: "template" # or generic for migration with postconf
 postfix_server_role: "master"

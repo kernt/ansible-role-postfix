@@ -23,5 +23,8 @@
 - name: handler_postmap_canonical
   command: postmap {{ postfix_mail_dir_postfix_config }}/canonical
 
+- name: handler_postmap_resieve
+  command: postmap {{ postfix_mail_dir_postfix_config }}/resieve
+
 - name: postfix-postalias
   command: postalias /etc/aliases
