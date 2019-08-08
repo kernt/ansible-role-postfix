@@ -16,16 +16,16 @@ smtp_generic_maps = hash:/etc/postfix/generic
 
 # TLS server parameters
 smtpd_use_tls=yes
-smtpd_tls_cert_file=/etc/ssl/cft/STAR_comfortticket_de.crt
-smtpd_tls_key_file=/etc/ssl/cft/STAR_comfortticket_de.key
-smtpd_tls_CAfile=/etc/ssl/cft/STAR_comfortticket_de.ca-bundle
+smtpd_tls_cert_file=/etc/ssl/cft/FQDN.crt
+smtpd_tls_key_file=/etc/ssl/cft/FQDN.key
+smtpd_tls_CAfile=/etc/ssl/cft/FQDN.ca-bundle
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 
 # TLS client parameters
 smtp_use_tls = yes
-smtp_tls_cert_file=/etc/ssl/cft/STAR_comfortticket_de.crt
-smtp_tls_key_file=/etc/ssl/cft/STAR_comfortticket_de.key
-smtp_tls_CAfile=/etc/ssl/cft/STAR_comfortticket_de.ca-bundle
+smtp_tls_cert_file=/etc/ssl/cft/FQDN.crt
+smtp_tls_key_file=/etc/ssl/cft/FQDN.key
+smtp_tls_CAfile=/etc/ssl/cft/FQDN.ca-bundle
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 
 # SASL Auth fuer imap
