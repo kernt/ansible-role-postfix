@@ -1,0 +1,83 @@
+mail_location = maildir:/var/mail/vmail/%u/
+
+namespace inbox {
+  type = private
+  inbox = yes
+  location =
+  mailbox Drafts {
+    special_use = \Drafts
+  }
+  mailbox Junk {
+    special_use = \Junk
+  }
+  mailbox Sent {
+    special_use = \Sent
+  }
+  mailbox "Sent Messages" {
+    special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
+  }
+  prefix =
+}
+
+protocols = "imap pop3"
+
+# Requires certificates ...
+#ssl = yes
+#ssl_cert = </etc/dovecot/private/something.pem
+#ssl_key =  </etc/letsencrypt/certs/something.key
+
+login_greeting = My Mail Server
+# http://wiki2.dovecot.org/Authentication/Mechanisms
+# login is for outlook express ...
+auth_mechanisms = plain login
+#auth_debug = yes
+#auth_debug_passwords=yes
+
+# Postfix - Sasl auth support.
+service auth {
+  # Postfix smtp-auth
+  unix_listener /var/spool/postfix/private/auth {
+    mode = 0660
+    user = postfix
+    group = postfix
+  }
+  # Auth process is run as this user.
+  user = postfix
+  group = postfix
+}
+
+service imap {
+    executable = imap
+}
+
+userdb {
+    driver = sql
+    args = /etc/dovecot/dovecot-sql.conf
+}
+
+passdb {
+    driver = sql
+    args = /etc/dovecot/dovecot-sql.conf
+}
+
+# Needs to match Postfix virtual_uid_maps
+first_valid_uid = 8
+
+# disallow or allow plaintext auth.
+disable_plaintext_auth = yes
+
+mail_plugins = $mail_plugins zlib
+
+plugin {
+    zlib_save_level = 6
+    zlib_save = gz
+}
+protocol imap {
+    mail_plugins = $mail_plugins imap_zlib
+}
+
+mail_max_userip_connections = 50
+log_path = /var/log/dovecot.log

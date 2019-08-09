@@ -1,0 +1,20 @@
+#https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/Postfix-Dovecot-Postgresql-Example.md
+relay_domains = $mydestination, proxy:pgsql:/etc/postfix/pgsql/relay_domains.cf
+virtual_alias_maps = proxy:pgsql:/etc/postfix/pgsql/virtual_alias_maps.cf
+virtual_mailbox_domains = proxy:pgsql:/etc/postfix/pgsql/virtual_domains_maps.cf
+virtual_mailbox_maps = proxy:pgsql:/etc/postfix/pgsql/virtual_mailbox_maps.cf
+virtual_mailbox_base = /var/mail/vmail
+virtual_mailbox_limit = 512000000
+virtual_minimum_uid = 8
+virtual_transport = virtual
+virtual_uid_maps = static:8
+virtual_gid_maps = static:8
+local_transport = virtual
+local_recipient_maps = $virtual_mailbox_maps
+# SASL Auth for SMTP relaying
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_authenticated_header = yes
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+broken_sasl_auth_clients = yes

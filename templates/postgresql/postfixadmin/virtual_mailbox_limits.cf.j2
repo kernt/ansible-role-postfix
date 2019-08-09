@@ -1,0 +1,6 @@
+# Used for quota
+user = postfix
+password = whatever
+hosts = localhost
+dbname = postfix
+query = SELECT quota FROM mailbox WHERE username='%s'
