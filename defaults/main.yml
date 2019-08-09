@@ -60,14 +60,18 @@ postfix_smtp_generic_maps: []
 
 ## Postfix Mapping
 postfix_domain_rewrite_filetype: "hash"
+postfix_mapping_dir: ""
 
 # access
-enable_access_maps: "false"
+enable_access_maps: "true"
 postfix_access_maps: []
 
 # alias
 enable_alias_maps: "yes"
-postfix_alias_maps: []
+postfix_alias_file: /etc/aliases
+postfix_alias_maps:
+  - user: postmaster
+    alias: root
 
 # sender_canonical_maps
 enable_canonical_maps: "false"
@@ -81,14 +85,17 @@ postfix_resieve_maps: []
 
 # generic
 enable_generic_maps: "false"
+postfix_generic_maps_file: ""
 postfix_generic_maps: []
 
 # recocated
 enable_relocated_maps: "false"
+postfix_relocated_maps_file: ""
 postfix_relocated_maps: []
 
 # transport for some diffent domains
 enable_transport_maps: "false"
+enable_transport_maps_file: "transport"
 postfix_transport_maps: []
 
 # virtual 

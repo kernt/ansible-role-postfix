@@ -62,18 +62,18 @@
         postfix.changed and
         postfix_domain_rewrite_filetype == 'hash'
 
-- name: rebuilding aliases.db
-  command: "postaliases /etc/aliases"
-  tags: [postfix]
-  notify: restart postfix
-  when: >
-        postfix.changed and
-        postfix_domain_rewrite_filetype == 'hash'
+- name: configure /etc/aliases
+  template:
+    src: aliases.j2
+    dest: /etc/aliases
+    owner: root
+    group: root
+    mode: 0644
+  notify: postfix-postalias
+
 
 #- name: rebuilding resieve.db
 #  command: "postmap /etc/postfix/resieve"
-#  vars:
-#    - postmapfile: "/etc/postfix/resieve"
 #  tags: [postfix]
 #  notify: restart postfix
 #  when: >

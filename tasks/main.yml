@@ -3,7 +3,7 @@
 # https://github.com/practical-ansible/mail
 # https://github.com/Oefenweb/ansible-postfix
 # https://wiki.gentoo.org/wiki/Complete_Virtual_Mail_Server/Postfix_to_Database/en
-
+# https://www.df.eu/de/support/df-faq/cloudserver/anleitungen/spam-und-virenschutz-mit-postfix-debian/
 - name: Verify base domain is set
   fail:
     msg: >
@@ -53,7 +53,13 @@
     group: postfix
 
 - name: Set rights for cf files
-  
+  file:
+    src: '/tmp/{{ item.src }}'
+    dest: '{{ item.dest }}'
+    state: link
+  with_items:
+    - { src: 'x', dest: 'y' }
+    - { src: 'z', dest: 'k' }
 
 - name: Ensure postfix is started and enabled at system boot.
   systemd:
