@@ -1,8 +1,8 @@
 bind = yes
-bind_dn = {{mail_ldap_bind_dn}}
-bind_pw = {{mail_password}}
-server_host = {{mail_ldap_host}}
-search_base = dc=ldap
+bind_dn = {{POSTFIX_LDAP_mail_ldap_bind_dn}}
+bind_pw = {{POSTFIX_LDAP_mail_password}}
+server_host = {{POSTFIX_LDAP_mail_ldap_host}}
+search_base = dc={{POSTFIX_LDAP_SEARCH_BASE}}
 scope = sub
-query_filter = memberof=cn=%u,ou=groups,dc=%d,dc=ldap
+query_filter = memberof=cn=%u,ou=groups,dc=%d,dc={{ POSTFIX_LDAP_DC1 }}
 result_attribute = mail, l

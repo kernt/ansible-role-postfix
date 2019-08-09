@@ -1,9 +1,9 @@
-server_host = {{ SERVERHOST }}
+server_host = {{ POSTFIX_LDAP_SERVERHOST }}
 version = 3
-search_base = ou=users,dc={{ DC2 }},dc={{ DC1 }}
-bind_dn = uid=cyrus,ou=users,dc={{ DC2 }},dc={{ DC1 }}
-bind_pw = {{ LDAPBINDPW }}
+search_base = ou=users,dc={{ POSTFIX_LDAP_DC2 }},dc={{ POSTFIX_LDAP_DC1 }}
+bind_dn = uid=cyrus,ou=users,dc={{ POSTFIX_LDAP_DC2 }},dc={{ POSTFIX_LDAP_DC1 }}
+bind_pw = {{ POSTFIX_LDAP_LDAPBINDPW }}
 #query_filter = (|(mail=%s)(uid=%s))
-query_filter = (&(!(gidNumber={{ GIDNUMBER }}))(|(mail=%s)(uid=%s)))
+query_filter = (&(!(gidNumber={{ POSTFIX_LDAP_GIDNUMBER }}))(|(mail=%s)(uid=%s)))
 result_attribute = uid
 result_format = %s@localhost

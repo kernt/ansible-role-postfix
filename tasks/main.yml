@@ -1,10 +1,9 @@
 ---
 # https://github.com/mrlesmithjr/ansible-postfix/tree/master/templates
-# https://github.com/practical-ansible/mail/blob/master/defaults/main.yml
-# https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
 # https://github.com/practical-ansible/mail
 # https://github.com/Oefenweb/ansible-postfix
-# 
+# https://wiki.gentoo.org/wiki/Complete_Virtual_Mail_Server/Postfix_to_Database/en
+
 - name: Verify base domain is set
   fail:
     msg: >
@@ -46,11 +45,21 @@
         ansible_os_family == "RedHat" and
         ansible_distribution == "Fedora"
 
+- name: Ensure postfix have access rights to postfix Directory
+  file:
+    path: /etc/postfix/
+    state: directory
+    user: root
+    group: postfix
+
+- name: Set rights for cf files
+  
+
 - name: Ensure postfix is started and enabled at system boot.
   systemd:
      name: postfix
      state: "{{ postfix_service_state }}"
-     enabled: "{{ postfix_service_enabled }}"
+  enabled: "{{ postfix_service_enabled }}"
 
 - name: Include tasks for testmail
   include_tasks: testmail.yml

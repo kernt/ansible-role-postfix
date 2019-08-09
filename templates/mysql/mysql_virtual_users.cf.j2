@@ -2,7 +2,7 @@ user            = mailsql
 password        = $password
 dbname          = mailsql
 table           = users
-select_field    = gid
+select_field    = uid
 where_field     = email
 additional_conditions = and postfix = 'y'
 hosts           = unix:/var/run/mysqld/mysqld.sock

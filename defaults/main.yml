@@ -1,9 +1,12 @@
 ---
 ## base configurations
 configure_postfix_type: "template" # or generic for migration with postconf
-postfix_server_role: "master"
-postfix_base_domain: "oshsl.de"
+postfix_server_role: "satellite" # Possible values are: local, Internet, satellite, smarthost
+postfix_base_domain: "example.com"
 postfix_mail_host: 'mail.{{ postfix_base_domain }}'
+postfix_mailbox_backend_type: "" # Possible values: mysql, psql, ldap, hash, btree
+postfix_type_of_table: "hash" # or btree faster but need more space
+postfix_mail_user_dir_type: "vmail" # or Static if you use just tabels only
 postfix_mail_user: "vmail"
 postfix_mail_group: "vmail"
 postfix_mail_dir_postfix_config: /etc/postfix
@@ -11,8 +14,8 @@ postfix_mail_dir_storage: "/srv/mail"
 imap_service: "dovecot"
 postfix_config_file: /etc/postfix/main.cf
 enable_postfix_domain_rewrite: "false"
-postfix_rewrite_domain: "oshsl.de"
-postfix_reley_host: "oshsl.de"
+postfix_rewrite_domain: "example.com"
+postfix_reley_host: "example.com"
 
 # Postfix service Configuration
 postfix_service_state: started
@@ -22,9 +25,10 @@ postfix_inet_protocols: all
 postfix_mynetworks: 
   - '127.0.0.0/8'
   - '172.17.0.0/16'
-  - '173.249.30.75/24'
+  - "{{ ansible_primary_ipv4 }}"
 
-# set your rols
+# set your own rols
+# 
 role_for_dkim: "ansible_role_opendkm"
 enable_role_dkim: "false"
 enable_postifx_dkim: "false"
@@ -35,21 +39,21 @@ role_for_dovecot: "ansible_role_dovecot"
 enable_role_dovecot: "false"
 enable_postfix_dovecot: "false"
 
-# Postfix testing
+# Postfix testing and Configuration for sasl Satallite Server
 enable_send_testmail: "false"
-google_username: ""
-# Get a token frim google: https://security.google.com/settings/security/apppasswords, https://www.linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/
-google_token: ""
+postfix_google_username: ""
+# Get a token from google: https://security.google.com/settings/security/apppasswords, https://www.linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/
+postfix_google_token: ""
 
 ## realy Server Configuration
 # Defines if a relay host should be used
 postfixsmtp_sasl_auth_enable: "false"
-sasl_user: ""
-sasl_imap_user_pw: ""
-smtp_tls_dir: "/etc/letsencrypt/live/vmd36612.contaboserver.net"
+sasl_user: "{{ postfix_google_username }}"
+sasl_imap_user_pw: "{{ postfix_google_token }}"
+smtp_tls_dir: "/etc/letsencrypt/live/{{ansible_}}"
 
 # Postfix server
-smtpd_tls_dir: "/etc/letsencrypt/live/vmd36612.contaboserver.net"
+smtpd_tls_dir: "/etc/letsencrypt/live/{{}}"
 
 # Postfix smtp
 postfix_smtp_generic_maps: []
@@ -118,3 +122,18 @@ postfix_smtp_tls_key_file: "{{ smtp_tls_dir }}/privkey.pem"
 ## Configure certificates
 enable_postfix_certbot: "false"
 # mail_admin_address= "max@musterman.com"
+
+
+# Virtual Mailbox Configuration
+post
+postfix_virtual_alias_maps: "proxy:pgsql:/etc/postfix/pgsql/virtual_alias_maps.cf"
+postfix_virtual_mailbox_domains = "proxy:pgsql:/etc/postfix/pgsql/virtual_domains_maps.cf"
+postfix_virtual_mailbox_maps = proxy:pgsql:/etc/postfix/pgsql/virtual_mailbox_maps.cf
+postfix_virtual_mailbox_base = /var/mail/vmail
+postfix_virtual_mailbox_limit = 512000000
+postfix_virtual_minimum_uid = 8
+postfix_virtual_transport = virtual
+postfix_virtual_uid_maps = static:8
+postfix_virtual_gid_maps = static:8
+postfix_local_transport = virtual
+postfix_local_recipient_maps = $virtual_mailbox_maps
