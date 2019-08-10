@@ -55,7 +55,7 @@ sasl_imap_user_pw: "{{ postfix_google_token }}"
 smtp_tls_dir: "/etc/letsencrypt/live/{{ansible_}}"
 
 # Postfix server
-smtpd_tls_dir: "/etc/letsencrypt/live/{{}}"
+smtpd_tls_dir: "/etc/letsencrypt/live/{{ ansible_fqdn }}/"
 
 # Postfix smtp
 postfix_smtp_generic_maps: []
