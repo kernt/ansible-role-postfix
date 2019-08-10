@@ -56,7 +56,7 @@
   systemd:
     name: postfix
     state: "{{ postfix_service_state }}"
-  enabled: "{{ postfix_service_enabled }}"
+    enabled: "{{ postfix_service_enabled }}"
 
 - name: Include tasks for testmail
   include_tasks: testmail.yml
