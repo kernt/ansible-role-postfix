@@ -31,7 +31,7 @@ milter_default_action   = accept
 milter_protocol         = 2
 {% endif %}
 # SASL Auth fuer imap repley
-{% if postfixsmtp_sasl_auth_enable and variable|length %}}
+{% if postfixsmtp_sasl_auth_enable %}}
 smtp_sasl_auth_enable = yes
 smtp_sasl_security_options = noanonymous
 smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
