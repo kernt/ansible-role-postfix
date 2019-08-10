@@ -61,10 +61,10 @@
     - { src: 'x', dest: 'y' }
     - { src: 'z', dest: 'k' }
 
-- name: Ensure postfix is started and enabled at system boot.
+- name: Ensure postfix is started and enabled at system boot
   systemd:
-     name: postfix
-     state: "{{ postfix_service_state }}"
+    name: postfix
+    state: "{{ postfix_service_state }}"
   enabled: "{{ postfix_service_enabled }}"
 
 - name: Include tasks for testmail
