@@ -37,7 +37,6 @@
    group: root
    mode: 0755
   when: postfixsmtp_sasl_auth_enable
-     
 
 # Original by https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
 - name: Create canonical maps if enabled
@@ -66,21 +65,20 @@
 - name: Create postfix configuration sasl 'passwd' file
   template:
     src: "sasl/passwd.j2"
-    dest: "{{ postfix_mail_dir_postfix_config }}/passwd"
+    dest: "{{ postfix_sasl_passwdfile }}/passwd"
     mode: 0644
     owner: "root"
     group: "root"
   tags: [postfix]
   register: postfix
-  notify: handler_postmap_generic
-  when: enable_generic_maps and configure_postfix_type == 'template'
+  notify: handler_postmap_sasl_passwd
+  when: postfixsmtp_sasl_auth_enable and configure_postfix_type == 'template'
 
 - name: rebuilding access.db
   command: "postmap /etc/postfix/access"
   tags: [postfix]
   notify: 
     - handler_postmap_access
-    - reload postfix
   when: >
         postfix.changed and
         postfix_domain_rewrite_filetype == 'hash'
@@ -106,7 +104,7 @@
 - name: rebuilding generic.db
   command: "postmap /etc/postfix/generic"
   tags: [postfix]
-  notify: restart postfix
+  notify: handler_postmap_generic
   when: >
         postfix.changed and
         postfix_domain_rewrite_filetype == 'hash'

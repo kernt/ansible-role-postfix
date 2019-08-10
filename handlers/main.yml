@@ -26,5 +26,8 @@
 - name: handler_postmap_resieve
   command: postmap {{ postfix_mail_dir_postfix_config }}/resieve
 
+- name: handler_postmap_sasl_passwd
+  command: postmap "{{ postfix_sasl_passwdfile }}"
+
 - name: postfix-postalias
   command: postalias /etc/aliases
