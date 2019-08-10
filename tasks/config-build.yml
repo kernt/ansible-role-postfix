@@ -9,6 +9,36 @@
    mode: 0755
 #  when: postfixsmtp_sasl_auth_enable
 
+# Set sasl dir
+- name: Ensure Direcory for ldap
+  file:
+   path: /etc/postfix/ldap
+   state: directory
+   owner: root
+   group: root
+   mode: 0755
+#  when:  postfix_mailbox_backend_type == "ldap"
+
+# Set sasl dir
+- name: Ensure Direcory for psql 
+  file:
+   path: /etc/postfix/sasl
+   state: directory
+   owner: root
+   group: root
+   mode: 0755
+#  when:  postfix_mailbox_backend_type == "psql"
+
+# Set sasl dir
+- name: Ensure Direcory for MySQL Backend
+  file:
+   path: /etc/postfix/mysql
+   state: directory
+   owner: root
+   group: root
+   mode: 0755
+#  when: postfix_mailbox_backend_type == "mysql"
+
 # Idee by https://github.com/geerlingguy/ansible-role-postfix/blob/master/tasks/main.yml
 # Just for the Base Configuration
 # Is easest to manage because you don't have to the j2 file template.
