@@ -1,4 +1,14 @@
 ---
+# Set sasl dir
+- name: Ensure Direcory for sasl 
+  file:
+   path: /etc/postfix/sasl
+   state: directory
+   owner: root
+   group: root
+   mode: 0755
+#  when: postfixsmtp_sasl_auth_enable
+
 # Idee by https://github.com/geerlingguy/ansible-role-postfix/blob/master/tasks/main.yml
 # Just for the Base Configuration
 # Is easest to manage because you don't have to the j2 file template.
@@ -28,16 +38,6 @@
   notify: restart postfix
   when: configure_postfix_type == "template"
 
-# Set sasl dir
-- name: Ensure Direcory for sasl 
-  file:
-   path: /etc/postfix/sasl
-   state: directory
-   owner: root
-   group: root
-   mode: 0755
-  when: postfixsmtp_sasl_auth_enable
-
 # Original by https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
 - name: Create canonical maps if enabled
   template:
@@ -65,7 +65,7 @@
 - name: Create postfix configuration sasl 'passwd' file
   template:
     src: "sasl/passwd.j2"
-    dest: "{{ postfix_sasl_passwdfile }}/passwd"
+    dest: "{{ postfix_sasl_passwdfile }}"
     mode: 0644
     owner: "root"
     group: "root"
