@@ -28,6 +28,17 @@
   notify: restart postfix
   when: configure_postfix_type == "template"
 
+# Set sasl dir
+- name: Ensure Direcory for sasl 
+  file:
+   path: /etc/postfix/sasl
+   state: directory
+   owner: root
+   group: root
+   mode: 0755
+  when: postfixsmtp_sasl_auth_enable
+     
+
 # Original by https://github.com/mrlesmithjr/ansible-postfix/blob/master/tasks/main.yml
 - name: Create canonical maps if enabled
   template:
@@ -44,6 +55,18 @@
   template:
     src: "hash/generic.j2"
     dest: "{{ postfix_mail_dir_postfix_config }}/generic"
+    mode: 0644
+    owner: "root"
+    group: "root"
+  tags: [postfix]
+  register: postfix
+  notify: handler_postmap_generic
+  when: enable_generic_maps and configure_postfix_type == 'template'
+
+- name: Create postfix configuration sasl 'passwd' file
+  template:
+    src: "sasl/passwd.j2"
+    dest: "{{ postfix_mail_dir_postfix_config }}/passwd"
     mode: 0644
     owner: "root"
     group: "root"
