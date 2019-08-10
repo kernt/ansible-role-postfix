@@ -45,21 +45,12 @@
         ansible_os_family == "RedHat" and
         ansible_distribution == "Fedora"
 
-- name: Ensure postfix have access rights to postfix Directory
-  file:
-    path: /etc/postfix/
-    state: directory
-    user: root
-    group: postfix
-
-- name: Set rights for cf files
-  file:
-    src: '/tmp/{{ item.src }}'
-    dest: '{{ item.dest }}'
-    state: link
-  with_items:
-    - { src: 'x', dest: 'y' }
-    - { src: 'z', dest: 'k' }
+#- name: Ensure postfix have access rights to postfix Directory
+#  file:
+#    path: /etc/postfix/
+#    state: directory
+#    owner: root
+#    group: postfix
 
 - name: Ensure postfix is started and enabled at system boot
   systemd:
