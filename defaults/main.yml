@@ -20,6 +20,8 @@ postfix_reley_host: "example.com"
 # Postfix service Configuration
 postfix_service_state: started
 postfix_service_enabled: true
+
+# Network
 postfix_inet_interfaces: localhost
 postfix_inet_protocols: all
 postfix_mynetworks: 
@@ -27,7 +29,7 @@ postfix_mynetworks:
   - '172.17.0.0/16'
   - "{{ ansible_primary_ipv4 }}"
 
-# set your own rols
+# set external roles
 # 
 role_for_dkim: "ansible_role_opendkm"
 enable_role_dkim: "false"
@@ -117,12 +119,12 @@ enable_amavis: "false"
 ## Postfix security
 enable_clamav: "false" 
 
-## Postfix SASL apiVersion: v1
-
 ## Postfix TLS parameters
+# Server
 postfix_smtpd_use_tls: "yes"
 postfix_smtpd_tls_cert_file: "{{ smtpd_tls_dir }}/cert.pem"
 postfix_smtpd_tls_key_file: "{{ smtpd_tls_dir }}/privkey.pem"
+# client or proxy/gateway
 postfix_smtp_tls_cert_file: "{{ smtp_tls_dir }}/cert.pem"
 postfix_smtp_tls_key_file: "{{ smtp_tls_dir }}/privkey.pem"
 
@@ -130,17 +132,15 @@ postfix_smtp_tls_key_file: "{{ smtp_tls_dir }}/privkey.pem"
 enable_postfix_certbot: "false"
 # mail_admin_address= "max@musterman.com"
 
-
 # Virtual Mailbox Configuration
-post
 postfix_virtual_alias_maps: "proxy:pgsql:/etc/postfix/pgsql/virtual_alias_maps.cf"
-postfix_virtual_mailbox_domains = "proxy:pgsql:/etc/postfix/pgsql/virtual_domains_maps.cf"
-postfix_virtual_mailbox_maps = proxy:pgsql:/etc/postfix/pgsql/virtual_mailbox_maps.cf
-postfix_virtual_mailbox_base = /var/mail/vmail
-postfix_virtual_mailbox_limit = 512000000
-postfix_virtual_minimum_uid = 8
-postfix_virtual_transport = virtual
-postfix_virtual_uid_maps = static:8
-postfix_virtual_gid_maps = static:8
-postfix_local_transport = virtual
-postfix_local_recipient_maps = $virtual_mailbox_maps
+postfix_virtual_mailbox_domains: "proxy:pgsql:/etc/postfix/pgsql/virtual_domains_maps.cf"
+postfix_virtual_mailbox_maps: "proxy:pgsql:/etc/postfix/pgsql/virtual_mailbox_maps.cf"
+postfix_virtual_mailbox_base: "/var/mail/vmail"
+postfix_virtual_mailbox_limit: 25120000002
+postfix_virtual_minimum_uid: 8
+postfix_virtual_transport: "virtual"
+postfix_virtual_uid_maps: "static:8"
+postfix_virtual_gid_maps: "static:8"
+postfix_local_transport: "virtual"
+postfix_local_recipient_maps: "$virtual_mailbox_maps"
