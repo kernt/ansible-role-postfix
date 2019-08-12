@@ -11,4 +11,3 @@
     state: "present"
   tags: [postfix]
   when: ansible_os_family == 'Debian'
-

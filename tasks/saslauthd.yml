@@ -1,11 +1,6 @@
 ---
-<<<<<<< HEAD
-
-- name: Ensure postfix is started and enabled at system boot
-=======
-# 
 - name: Ensure saslauthd is started and enabled at system boot
->>>>>>> 02632ab429c3778d2c3de908435587c87eb9ce0f
+
   systemd:
     name: saslauthd
     state: started
@@ -20,10 +15,5 @@
     group: root
     backup: yes
     mode: 0644
-<<<<<<< HEAD
   when: enable_saslauthd
   notify: handler_saslauthd
-=======
-  notify: handler_saslauthd
-
->>>>>>> 02632ab429c3778d2c3de908435587c87eb9ce0f

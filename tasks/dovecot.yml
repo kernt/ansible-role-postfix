@@ -5,4 +5,3 @@
     name: dovecot
     state: started
     enabled: yes
-

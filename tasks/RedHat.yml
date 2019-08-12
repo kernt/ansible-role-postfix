@@ -1,5 +1,4 @@
 ---
-
 - name: Checking to make sure mailx is installed if RedHat not Fedora is used.
   yum:
     name:
@@ -19,7 +18,3 @@
   when: >
         ansible_os_family == "RedHat" and
         ansible_distribution == "Fedora"
-<<<<<<< HEAD
-=======
-
->>>>>>> 02632ab429c3778d2c3de908435587c87eb9ce0f
