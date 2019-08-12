@@ -76,8 +76,6 @@ postfix_alias_file: /etc/aliases
 postfix_alias_maps:
   - user: postmaster
     alias: root
-  - user: {{ ansible_user_id }}
-    alias: root
 
 # access
 enable_access_maps: "true"
