@@ -13,7 +13,7 @@
   when: postfix_base_domain is not defined
 
 - include_vars: "{{ ansible_os_family }}.yml"
-- include: "{{ ansible_os_family }}.yml"
+- include_tasks: "{{ ansible_os_family }}.yml"
 
 - name: Ensure postfix is installed.
   package:
@@ -45,3 +45,4 @@
 - name: Include tasks for saslauthd
   include_tasks: saslauthd.yml
   when: enable_postfix_saslauthd
+
