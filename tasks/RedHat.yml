@@ -18,3 +18,20 @@
   when: >
         ansible_os_family == "RedHat" and
         ansible_distribution == "Fedora"
+
+- name: Install Postfix dependencies
+  yum:
+    name:
+      - cyrus_sasl
+      - cyrus_sasl-gs2
+      - cyrus-sasl-plain
+      - cyrus-sasl-md5
+      - cyrus-sasl-ldap
+      - cyrus-sasl-gssapi
+      - cyrus-sasl-ntlm
+      - cyrus-sasl-sql
+    state: present
+  when: >
+        ansible_os_family == "RedHat" and
+        ansible_distribution != "Fedora"
+        postfix_smtp_sasl_auth_enable
