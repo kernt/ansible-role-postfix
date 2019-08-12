@@ -1,6 +1,6 @@
 ---
 # Set sasl dir
-- name: Ensure Direcory for sasl 
+- name: Ensure Direcory for sasl
   file:
    path: /etc/postfix/sasl
    state: directory
@@ -20,7 +20,7 @@
   when:  postfix_mailbox_backend_type == "ldap"
 
 # Set sasl dir
-- name: Ensure Direcory for psql 
+- name: Ensure Direcory for psql
   file:
    path: /etc/postfix/sasl
    state: directory
