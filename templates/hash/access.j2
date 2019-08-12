@@ -1,2 +1,6 @@
+# Postfix SMTP relay and access control 
+# http://www.postfix.org/access.5.html
+# TABLE FORMAT
+# pattern action
 {% for item in postfix_access_maps %}{{ item }}
 {% endfor %}

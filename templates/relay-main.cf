@@ -1,37 +1,21 @@
-# See /usr/share/postfix/main.cf.dist for a commented, more complete version
-
 smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
 biff = no
-
-# appending .domain is the MUA's job.
 append_dot_mydomain = no
-
-# Uncomment the next line to generate "delayed mail" warnings
-#delay_warning_time = 4h
-
+delay_warning_time = 4h
 readme_directory = no
-
 smtpd_recipient_restrictions = check_client_access hash:/etc/postfix/access, reject
 smtp_generic_maps = hash:/etc/postfix/generic
-
 # TLS parameters
 smtpd_use_tls=yes
 smtpd_tls_cert_file=/etc/ssl//.crt
 smtpd_tls_key_file=/etc/ssl//.key
 smtpd_tls_CAfile=/etc/ssl//.ca-bundle
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
-
 # SASL Auth fuer imap
 smtp_sasl_auth_enable = yes
 smtp_sasl_security_options = noanonymous
 smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
-
-# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
-# information on enabling SSL in the smtp client.
-
 myhostname = {{ ansible_fqdn }}
-# edit by tobias kern
-# so nicht! 
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 myorigin = /etc/mailname

@@ -1,0 +1,17 @@
+---
+# 
+- name: Ensure postfix is started and enabled at system boot
+  systemd:
+    name: saslauthd
+    state: started
+    enabled: yes
+
+- name: configure saslauthd
+  template:
+    src: saslauthd/aliases.j2
+    dest: /etc/postfix/saslauthd
+    owner: root
+    group: root
+    backup: yes
+    mode: 0644
+  notify: handler_saslauthd

@@ -1,0 +1,8 @@
+---
+# just a basic solution!
+- name: Ensure dovecot is started and enabled at system boot
+  systemd:
+    name: dovecot
+    state: started
+    enabled: yes
+

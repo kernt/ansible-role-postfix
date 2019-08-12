@@ -1,0 +1,20 @@
+---
+# https://wiki.debian.org/PostfixAndSASL
+- name: dependencies for Postfix ans saslauthd
+  package:
+    update_cache: yes
+    name:
+      - sasl2-bin
+      - libsasl2-modules
+  when: postfix_smtp_sasl_auth_enable
+
+- name:  Ensure saslauthd is started and enabled
+  systemd:
+    name: saslauthd
+    state: started
+    enabled: yes
+  when: postfix_smtp_sasl_auth_enable
+
+postfix_saslauthd_config: "/etc/default/saslauthd"
+
+postfix_saslauthd_smtpd_config: "/etc/postfix/sasl/smtpd.conf"

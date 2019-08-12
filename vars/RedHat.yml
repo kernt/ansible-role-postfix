@@ -1,0 +1,18 @@
+---
+- name: Install Postfix dependencies
+  package:
+    update_cache: yes
+    name:
+      - cyrus_sasl
+      - cyrus_sasl-gs2
+      - cyrus-sasl-plain
+      - cyrus-sasl-md5
+      - cyrus-sasl-ldap
+      - cyrus-sasl-gssapi
+      - cyrus-sasl-ntlm
+      - cyrus-sasl-sql
+  when: postfix_smtp_sasl_auth_enable
+
+postfix_saslauthd_config: "/etc/sysconfig/saslauthd"
+
+postfix_saslauthd_smtpd_config: "/etc/postfix/sasl/smtpd.conf"

@@ -40,6 +40,8 @@ enable_postfix_amavis: "false"
 role_for_dovecot: "ansible_role_dovecot"
 enable_role_dovecot: "false"
 enable_postfix_dovecot: "false"
+enable_saslauthd: "false"
+role_for_saslauthd: "ansible_role_saslauthd"
 
 # Postfix testing and Configuration for sasl Satallite Server
 enable_send_testmail: "false"
@@ -49,9 +51,12 @@ postfix_google_token: ""
 
 ## realy Server Configuration
 # Defines if a relay host should be used
-postfixsmtp_sasl_auth_enable: "true"
-sasl_user: "{{ postfix_google_username }}"
-sasl_imap_user_pw: "{{ postfix_google_token }}"
+postfix_smtp_sasl_auth_enable: "true"
+enable_postfix_sasl_client_conf: "true"
+enable_postfix_sasl_server_conf: "true"
+postfix_sasl_type: "cyrus" # or dovecot
+postfix_sasl_user: "{{ postfix_google_username }}"
+postfix_sasl_imap_user_pw: "{{ postfix_google_token }}"
 postfix_sasl_passwdfile: "{{ postfix_mail_dir_postfix_config }}/sasl/passwd"
 smtp_tls_dir: "/etc/letsencrypt/live/{{ ansible_fqdn }}/"
 
@@ -65,38 +70,35 @@ postfix_smtp_generic_maps: []
 postfix_domain_rewrite_filetype: "hash"
 postfix_mapping_dir: ""
 
-# access
-enable_access_maps: "true"
-postfix_access_maps: []
-
 # alias
 enable_alias_maps: "yes"
 postfix_alias_file: /etc/aliases
 postfix_alias_maps:
   - user: postmaster
     alias: root
+  - user: {{ ansible_user }}
+    alias: root
 
-# sender_canonical_maps
+# access
+enable_access_maps: "true"
+postfix_access_maps: []
+
+# canonical maps
 enable_canonical_maps: "false"
 postfix_canonical_maps:
-  - "tobkern    Tobias.Kern"
-
-# resive mails
-# https://github.com/mrlesmithjr/ansible-postfix/blob/master/templates/canonical.j2
-enable_resieve: "false"
-postfix_resieve_maps: []
+  - "root   {{ansible-user}}"
 
 # generic
 enable_generic_maps: "false"
 postfix_generic_maps_file: ""
 postfix_generic_maps: []
 
-# recocated
+# relocated
 enable_relocated_maps: "false"
 postfix_relocated_maps_file: ""
 postfix_relocated_maps: []
 
-# transport for some diffent domains
+# transport
 enable_transport_maps: "false"
 enable_transport_maps_file: "transport"
 postfix_transport_maps: []
@@ -106,11 +108,8 @@ enable_virtual_maps: "false"
 postfix_virtual_maps: []
 
 ## Postfix User MGMNT beckends
-mail_users_backend: "mysql"
-# for ldap
-# mail_ldap_host: '127.0.0.1'
-# 
-# for mysql
+mail_users_backend: 
+  - mysql
 
 ## Postfix aci_interface_policy_port_security:
 
