@@ -27,7 +27,7 @@ postfix_inet_protocols: all
 postfix_mynetworks: 
   - '127.0.0.0/8'
   - '172.17.0.0/16'
-  - "{{ ansible_primary_ipv4 }}"
+  - "{{ ansible_default_ipv4 }}"
 
 # set external roles
 # 
@@ -76,7 +76,7 @@ postfix_alias_file: /etc/aliases
 postfix_alias_maps:
   - user: postmaster
     alias: root
-  - user: {{ ansible_user }}
+  - user: {{ ansible_user_id }}
     alias: root
 
 # access
@@ -86,7 +86,7 @@ postfix_access_maps: []
 # canonical maps
 enable_canonical_maps: "false"
 postfix_canonical_maps:
-  - "root   {{ansible-user}}"
+  - "root   {{ ansible_user_id }}"
 
 # generic
 enable_generic_maps: "false"
