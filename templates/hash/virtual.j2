@@ -1,1 +1,3 @@
-root	service@example.de
+{% for item in postfix_tranport_maps %}
+  {{ item.virtual_domain }} {{ item.virtual_alias }}
+{% endfor %}

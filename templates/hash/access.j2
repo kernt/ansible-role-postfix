@@ -2,5 +2,6 @@
 # http://www.postfix.org/access.5.html
 # TABLE FORMAT
 # pattern action
-{% for item in postfix_access_maps %}{{ item }}
+{% for item in postfix_access_maps %}
+    {{ item.address }} {{ item.action }}
 {% endfor %}

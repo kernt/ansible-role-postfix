@@ -4,7 +4,6 @@ configure_postfix_type: "template" # or generic for migration with postconf
 postfix_server_role: "satellite" # Possible values are: local, Internet, satellite, smarthost
 postfix_base_domain: "example.com"
 postfix_mail_host: 'mail.{{ postfix_base_domain }}'
-postfix_mailbox_backend_type: "" # Possible values: mysql, psql, ldap, hash, btree
 postfix_type_of_table: "hash" # or btree faster but need more space
 postfix_mail_user_dir_type: "vmail" # or Static if you use just tabels only
 postfix_mail_user: "vmail"
@@ -79,17 +78,24 @@ postfix_alias_maps:
 
 # access
 enable_access_maps: "true"
-postfix_access_maps: []
+postfix_access_maps: 
+  - address: localhost
+    action: OK
 
 # canonical maps
 enable_canonical_maps: "false"
 postfix_canonical_maps:
-  - "root   {{ ansible_user_id }}"
+  - address: "@docker.local"
+    action: "@{{ansible_fqdn}}"
 
 # generic
 enable_generic_maps: "false"
 postfix_generic_maps_file: ""
-postfix_generic_maps: []
+postfix_generic_maps:
+  - address: "@{{ ansible_hostname }}"
+    rewrite_domain: "{{ ansible_hostname }}@{{ postfix_rewrite_domain }}"
+  - address: "@{{ ansible_fqdn }}"
+    rewrite_domain: "{{ ansible_hostname }}@{{ postfix_rewrite_domain }}"
 
 # relocated
 enable_relocated_maps: "false"
@@ -99,15 +105,21 @@ postfix_relocated_maps: []
 # transport
 enable_transport_maps: "false"
 enable_transport_maps_file: "transport"
-postfix_transport_maps: []
+postfix_transport_maps: 
+  - old_location: ""
+    new_location: ""
 
 # virtual 
 enable_virtual_maps: "false"
-postfix_virtual_maps: []
+postfix_virtual_maps:
+  - virtual_domain: ""
+    virtual_alias: ""
 
 ## Postfix User MGMNT beckends
-mail_users_backend: 
+mail_users_backends: 
   - mysql
+  - ldap
+  - psql
 
 ## Postfix aci_interface_policy_port_security:
 

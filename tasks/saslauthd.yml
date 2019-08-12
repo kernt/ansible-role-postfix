@@ -5,6 +5,7 @@
     name: saslauthd
     state: started
     enabled: yes
+  when: enable_saslauthd
 
 - name: configure saslauthd
   template:
@@ -14,4 +15,5 @@
     group: root
     backup: yes
     mode: 0644
+  when: enable_saslauthd
   notify: handler_saslauthd
