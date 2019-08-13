@@ -56,8 +56,9 @@ enable_postfix_sasl_server_conf: "false"
 postfix_sasl_type: "cyrus" # or dovecot
 postfix_sasl_passwd_maps:
   - postfix_sasl_mailserver_host: "[mail.{{ postfix_base_domain }}]:587"
-  - postfix_sasl_user: "max.musterman"
-  - postfix_sasl_imap_user_pw: "{{ postfix_google_token }}"
+    postfix_sasl_user: "max.musterman"
+    postfix_sasl_imap_user_pw: "{{ postfix_google_token }}"
+
 postfix_sasl_passwdfile: "{{ postfix_mail_dir_postfix_config }}/sasl/passwd"
 smtp_tls_dir: "/etc/letsencrypt/live/{{ ansible_fqdn }}/"
 
