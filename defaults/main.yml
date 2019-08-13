@@ -3,7 +3,7 @@
 configure_postfix_type: "template" # or generic for migration with postconf
 postfix_server_role: "satellite" # Possible values are: local, Internet, satellite, smarthost
 postfix_base_domain: "example.com"
-postfix_mail_host: 'mail.{{ postfix_base_domain }}'
+postfix_mail_host: "mail.{{ postfix_base_domain }}"
 postfix_type_of_table: "hash" # or btree faster but need more space
 postfix_mail_user_dir_type: "vmail" # or Static if you use just tabels only
 postfix_mail_user: "vmail"
