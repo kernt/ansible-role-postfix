@@ -3,7 +3,7 @@
 configure_postfix_type: "template" # or generic for migration with postconf
 postfix_server_role: "satellite" # Possible values are: local, Internet, satellite, smarthost
 postfix_base_domain: "example.com"
-postfix_mail_host: "mail.{{ postfix_base_domain }}"
+#postfix_mail_host: "mail.{{ postfix_base_domain }}"
 postfix_type_of_table: "hash" # or btree faster but need more space
 postfix_mail_user_dir_type: "vmail" # or Static if you use just tabels only
 postfix_mail_user: "vmail"
@@ -55,7 +55,7 @@ enable_postfix_sasl_client_conf: "true"
 enable_postfix_sasl_server_conf: "true"
 postfix_sasl_type: "cyrus" # or dovecot
 postfix_sasl_passwd_maps:
-  - postfix_sasl_mailserver_host: "{{ postfix_mail_host }}"
+  - postfix_sasl_mailserver_host: "[mail.{{ postfix_base_domain }}]:587"
   - postfix_sasl_user: "{{ postfix_google_username }}"
   - postfix_sasl_imap_user_pw: "{{ postfix_google_token }}"
 postfix_sasl_passwdfile: "{{ postfix_mail_dir_postfix_config }}/sasl/passwd"
