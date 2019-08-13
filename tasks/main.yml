@@ -29,19 +29,19 @@
 
 - name: Include tasks for testmail
   include_tasks: testmail.yml
-  when: enable_send_testmail| bool
+  when: enable_send_testmail
 
 - name: Include tasks for config-build
   include_tasks: config-build.yml
 
 - name: Include tasks for certificates
   include_tasks: certificates.yml
-  when: enable_postfix_certbot| bool
+  when: enable_postfix_certbot
 
 - name: Include tasks for IMAP Server Dovecot
   include_tasks: dovecot.yml
-  when: enable_postfix_dovecot| bool
+  when: enable_postfix_dovecot
 
 - name: Include tasks for saslauthd
   include_tasks: saslauthd.yml
-  when: enable_postfix_saslauthd| bool
+  when: enable_postfix_saslauthd
