@@ -52,7 +52,7 @@ postfix_google_token: "4534623465676"
 # Defines if a relay host should be used
 postfix_smtp_sasl_auth_enable: "true"
 enable_postfix_sasl_client_conf: "true"
-enable_postfix_sasl_server_conf: "true"
+enable_postfix_sasl_server_conf: "false"
 postfix_sasl_type: "cyrus" # or dovecot
 postfix_sasl_passwd_maps:
   - postfix_sasl_mailserver_host: "[mail.{{ postfix_base_domain }}]:587"
