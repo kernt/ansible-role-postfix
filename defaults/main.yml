@@ -3,8 +3,7 @@
 configure_postfix_type: "template" # or generic for migration with postconf
 postfix_server_role: "satellite" # Possible values are: local, Internet, satellite, smarthost
 postfix_base_domain: "example.com"
-postfix_mail_host: 'mail.{{ postfix_base_domain }}'
-postfix_mailbox_backend_type: "" # Possible values: mysql, psql, ldap, hash, btree
+#postfix_mail_host: "mail.{{ postfix_base_domain }}"
 postfix_type_of_table: "hash" # or btree faster but need more space
 postfix_mail_user_dir_type: "vmail" # or Static if you use just tabels only
 postfix_mail_user: "vmail"
@@ -27,7 +26,7 @@ postfix_inet_protocols: all
 postfix_mynetworks: 
   - '127.0.0.0/8'
   - '172.17.0.0/16'
-  - "{{ ansible_primary_ipv4 }}"
+  - "{{ ansible_default_ipv4 }}"
 
 # set external roles
 # 
@@ -40,18 +39,26 @@ enable_postfix_amavis: "false"
 role_for_dovecot: "ansible_role_dovecot"
 enable_role_dovecot: "false"
 enable_postfix_dovecot: "false"
+enable_postfix_saslauthd: "false"
+role_for_saslauthd: "ansible_role_saslauthd"
 
 # Postfix testing and Configuration for sasl Satallite Server
 enable_send_testmail: "false"
-postfix_google_username: ""
+postfix_google_username: "max.musterman"
 # Get a token from google: https://security.google.com/settings/security/apppasswords, https://www.linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/
-postfix_google_token: ""
+postfix_google_token: "4534623465676"
 
 ## realy Server Configuration
 # Defines if a relay host should be used
-postfixsmtp_sasl_auth_enable: "true"
-sasl_user: "{{ postfix_google_username }}"
-sasl_imap_user_pw: "{{ postfix_google_token }}"
+postfix_smtp_sasl_auth_enable: "true"
+enable_postfix_sasl_client_conf: "true"
+enable_postfix_sasl_server_conf: "false"
+postfix_sasl_type: "cyrus" # or dovecot
+postfix_sasl_passwd_maps:
+  - postfix_sasl_mailserver_host: "[mail.{{ postfix_base_domain }}]:587"
+    postfix_sasl_user: "max.musterman"
+    postfix_sasl_imap_user_pw: "{{ postfix_google_token }}"
+
 postfix_sasl_passwdfile: "{{ postfix_mail_dir_postfix_config }}/sasl/passwd"
 smtp_tls_dir: "/etc/letsencrypt/live/{{ ansible_fqdn }}/"
 
@@ -65,10 +72,6 @@ postfix_smtp_generic_maps: []
 postfix_domain_rewrite_filetype: "hash"
 postfix_mapping_dir: ""
 
-# access
-enable_access_maps: "true"
-postfix_access_maps: []
-
 # alias
 enable_alias_maps: "yes"
 postfix_alias_file: /etc/aliases
@@ -76,41 +79,51 @@ postfix_alias_maps:
   - user: postmaster
     alias: root
 
-# sender_canonical_maps
+# access
+enable_access_maps: "true"
+postfix_access_maps: 
+  - address: localhost
+    action: OK
+
+# canonical maps
 enable_canonical_maps: "false"
 postfix_canonical_maps:
-  - "tobkern    Tobias.Kern"
-
-# resive mails
-# https://github.com/mrlesmithjr/ansible-postfix/blob/master/templates/canonical.j2
-enable_resieve: "false"
-postfix_resieve_maps: []
+  - address: "@docker.local"
+    action: "@{{ansible_fqdn}}"
 
 # generic
 enable_generic_maps: "false"
 postfix_generic_maps_file: ""
-postfix_generic_maps: []
+postfix_generic_maps:
+  - address: "@{{ ansible_hostname }}"
+    rewrite_domain: "{{ ansible_hostname }}@{{ postfix_rewrite_domain }}"
+  - address: "@{{ ansible_fqdn }}"
+    rewrite_domain: "{{ ansible_hostname }}@{{ postfix_rewrite_domain }}"
 
-# recocated
+# relocated
 enable_relocated_maps: "false"
 postfix_relocated_maps_file: ""
 postfix_relocated_maps: []
 
-# transport for some diffent domains
+# transport
 enable_transport_maps: "false"
 enable_transport_maps_file: "transport"
-postfix_transport_maps: []
+postfix_transport_maps: 
+  - old_location: ""
+    new_location: ""
 
 # virtual 
 enable_virtual_maps: "false"
-postfix_virtual_maps: []
+postfix_virtual_maps:
+  - virtual_domain: ""
+    virtual_alias: ""
 
 ## Postfix User MGMNT beckends
-mail_users_backend: "mysql"
-# for ldap
-# mail_ldap_host: '127.0.0.1'
-# 
-# for mysql
+postfix_mailbox_backend_type: "static"
+mail_users_backends: 
+  - mysql
+  - ldap
+  - psql
 
 ## Postfix aci_interface_policy_port_security:
 

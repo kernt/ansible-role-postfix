@@ -1,0 +1,37 @@
+---
+- name: Checking to make sure mailx is installed if RedHat not Fedora is used.
+  yum:
+    name:
+      - 'mailx'
+    state: "present"
+  tags: [postfix]
+  when: >
+        ansible_os_family == "RedHat" and
+        ansible_distribution != "Fedora"| bool
+
+- name: Checking to make sure mailx is installed on Fedora
+  dnf:
+    name:
+      - 'mailx'
+    state: "present"
+  tags: [postfix]
+  when: >
+        ansible_os_family == "RedHat" and
+        ansible_distribution == "Fedora"| bool
+
+- name: Install Postfix dependencies
+  yum:
+    name: "{{ item }}"
+    state: "present"
+  loop:
+    - 'cyrus-sasl'
+    - 'cyrus-sasl-gs2'
+    - 'cyrus-sasl-plain'
+    - 'cyrus-sasl-md5'
+    - 'cyrus-sasl-ldap'
+    - 'cyrus-sasl-gssapi'
+    - 'cyrus-sasl-ntlm'
+    - 'cyrus-sasl-sql'
+  when:
+    - ansible_os_family == "RedHat" and ansible_distribution != "Fedora|bool"
+    - postfix_smtp_sasl_auth_enable

@@ -1,0 +1,3 @@
+---
+postfix_saslauthd_config: "/etc/sysconfig/saslauthd"
+postfix_saslauthd_smtpd_config: "/etc/postfix/sasl/smtpd.conf"
