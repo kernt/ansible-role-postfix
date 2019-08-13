@@ -1,1 +1,3 @@
-{{ postfix_mail_host }}	{{ postfix_sasl_user }}:{{ postfix_sasl_imap_user_pw }}
+{% for item in postfix_sasl_passwd_maps %}
+{{ postfix_sasl_mailserver_host }}	{{ postfix_sasl_user }}:{{ postfix_sasl_imap_user_pw }}
+{% endfor %}
