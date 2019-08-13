@@ -1,0 +1,19 @@
+---
+- name: Ensure saslauthd is started and enabled at system boot
+
+  systemd:
+    name: saslauthd
+    state: started
+    enabled: yes
+  when: enable_saslauthd
+
+- name: configure saslauthd
+  template:
+    src: saslauthd/aliases.j2
+    dest: /etc/postfix/saslauthd
+    owner: root
+    group: root
+    backup: yes
+    mode: 0644
+  when: enable_saslauthd
+  notify: handler_saslauthd

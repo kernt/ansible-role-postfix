@@ -1,4 +1,5 @@
 ---
+# Just a basic solution !
 - name: Ensure certificate directory existence
   file:
     path: '{{ mail_dir_cert }}'

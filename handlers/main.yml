@@ -11,11 +11,8 @@
     state: "reloaded"
   when: not ansible_check_mode
 
-- name: handler_postmap_canonical
-  command: postmap {{ postfix_mail_dir_postfix_config }}/canonical
-
-- name: handler_postmap_generic
-  command: postmap {{ postfix_mail_dir_postfix_config }}/generic
+- name: postfix-postalias
+  command: postalias /etc/aliases
 
 - name: handler_postmap_access
   command: postmap {{ postfix_mail_dir_postfix_config }}/access
@@ -23,11 +20,28 @@
 - name: handler_postmap_canonical
   command: postmap {{ postfix_mail_dir_postfix_config }}/canonical
 
-- name: handler_postmap_resieve
-  command: postmap {{ postfix_mail_dir_postfix_config }}/resieve
+- name: handler_postmap_generic
+  command: postmap {{ postfix_mail_dir_postfix_config }}/generic
+
+- name: handler_postmap_relocated
+  command: postmap {{ postfix_mail_dir_postfix_config }}/relocated
+
+- name: handler_postmap_transport
+  command: postmap {{ postfix_mail_dir_postfix_config }}/transport
+
+- name: handler_postmap_virtual
+  command: postmap {{ postfix_mail_dir_postfix_config }}/virtual
 
 - name: handler_postmap_sasl_passwd
   command: postmap "{{ postfix_sasl_passwdfile }}"
 
-- name: postfix-postalias
-  command: postalias /etc/aliases
+- name: handler_dovecot_restart
+  systemd: 
+    name: dovecot
+    state: "restarted"
+
+- name: handler_saslauthd
+  systemd: 
+    name: saslauthd
+    state: "restarted"
+

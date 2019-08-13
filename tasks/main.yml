@@ -4,6 +4,7 @@
 # https://github.com/Oefenweb/ansible-postfix
 # https://wiki.gentoo.org/wiki/Complete_Virtual_Mail_Server/Postfix_to_Database/en
 # https://www.df.eu/de/support/df-faq/cloudserver/anleitungen/spam-und-virenschutz-mit-postfix-debian/
+
 - name: Verify base domain is set
   fail:
     msg: >
@@ -11,48 +12,16 @@
       to your desired domain name
   when: postfix_base_domain is not defined
 
+- include_vars: "{{ ansible_os_family }}.yml"
+- include_tasks: "{{ ansible_os_family }}.yml"
+
 - name: Ensure postfix is installed.
   package:
     name: postfix
     state: present
   tags: [postfix]
 
-- name: Checking to make sure mailutils is installed if Debian os is used.
-  apt:
-    name:
-      - 'mailutils'
-    state: "present"
-  tags: [postfix]
-  when: ansible_os_family == 'Debian'
-
-- name: Checking to make sure mailx is installed if RedHat not Fedora is used.
-  yum:
-    name:
-      - 'mailx'
-    state: "present"
-  tags: [postfix]
-  when: >
-        ansible_os_family == "RedHat" and
-        ansible_distribution != "Fedora"
-
-- name: Checking to make sure mailx is installed on Fedora
-  dnf:
-    name:
-      - 'mailx'
-    state: "present"
-  tags: [postfix]
-  when: >
-        ansible_os_family == "RedHat" and
-        ansible_distribution == "Fedora"
-
-#- name: Ensure postfix have access rights to postfix Directory
-#  file:
-#    path: /etc/postfix/
-#    state: directory
-#    owner: root
-#    group: postfix
-
-- name: Ensure postfix is started and enabled at system boot
+- name: Ensure postfix is started and enabled
   systemd:
     name: postfix
     state: "{{ postfix_service_state }}"
@@ -68,3 +37,11 @@
 - name: Include tasks for certificates
   include_tasks: certificates.yml
   when: enable_postfix_certbot
+
+- name: Include tasks for IMAP Server Dovecot
+  include_tasks: dovecot.yml
+  when: enable_postfix_dovecot
+
+- name: Include tasks for saslauthd
+  include_tasks: saslauthd.yml
+  when: enable_postfix_saslauthd

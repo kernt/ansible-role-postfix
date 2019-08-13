@@ -1,0 +1,53 @@
+---
+# Postfix smtp
+postfix_smtp_generic_maps: []
+
+## Postfix Mapping
+postfix_domain_rewrite_filetype: "hash"
+postfix_mapping_dir: ""
+
+# alias
+enable_alias_maps: "yes"
+postfix_alias_file: /etc/aliases
+postfix_alias_maps:
+  - user: postmaster
+    alias: root
+
+# access
+enable_access_maps: "true"
+postfix_access_maps: 
+  - address: localhost
+    action: OK
+
+# canonical maps
+enable_canonical_maps: "false"
+postfix_canonical_maps:
+  - address: "@docker.local"
+    action: "@{{ansible_fqdn}}"
+
+# generic
+enable_generic_maps: "false"
+postfix_generic_maps_file: ""
+postfix_generic_maps:
+  - address: "@{{ ansible_hostname }}"
+    rewrite_domain: "{{ ansible_hostname }}@{{ postfix_rewrite_domain }}"
+  - address: "@{{ ansible_fqdn }}"
+    rewrite_domain: "{{ ansible_hostname }}@{{ postfix_rewrite_domain }}"
+
+# relocated
+enable_relocated_maps: "false"
+postfix_relocated_maps_file: ""
+postfix_relocated_maps: []
+
+# transport
+enable_transport_maps: "false"
+enable_transport_maps_file: "transport"
+postfix_transport_maps: 
+  - old_location: ""
+    new_location: ""
+
+# virtual 
+enable_virtual_maps: "false"
+postfix_virtual_maps:
+  - virtual_domain: ""
+    virtual_alias: ""
