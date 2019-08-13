@@ -7,7 +7,7 @@
    owner: root
    group: root
    mode: 0755
-  when: postfixsmtp_sasl_auth_enable
+  when: postfix_smtp_sasl_auth_enable
 
 # Set sasl dir
 - name: Ensure Direcory for ldap
