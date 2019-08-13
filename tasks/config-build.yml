@@ -185,14 +185,6 @@
         postfix.changed and
         postfix_domain_rewrite_filetype == 'hash'
 
-- name: rebuilding relocated.db
-  command: "postmap /etc/postfix/relocated"
-  tags: [postfix]
-  notify: handler_postmap_relocated
-  when: >
-        postfix.changed and
-        postfix_domain_rewrite_filetype == 'hash'
-
 - name: rebuilding transport.db
   command: "postmap /etc/postfix/transport"
   tags: [postfix]
