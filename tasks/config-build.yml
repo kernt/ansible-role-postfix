@@ -134,7 +134,7 @@
     group: "root"
   tags: [postfix]
   register: postfix
-  notify: handler_virtual_transport
+  notify: handler_postmap_virtual
   when: enable_virtual_maps and configure_postfix_type == 'template'
 
 - name: Create postfix configuration sasl 'passwd' file
