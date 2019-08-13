@@ -39,6 +39,7 @@ enable_postfix_amavis: "false"
 role_for_dovecot: "ansible_role_dovecot"
 enable_role_dovecot: "false"
 enable_postfix_dovecot: "false"
+postfix_smtp_sasl_auth_enable: "false"
 enable_saslauthd: "false"
 role_for_saslauthd: "ansible_role_saslauthd"
 

@@ -147,7 +147,7 @@
   tags: [postfix]
   register: postfix
   notify: handler_postmap_sasl_passwd
-  when: postfixsmtp_sasl_auth_enable and configure_postfix_type == 'template'
+  when: postfix_smtp_sasl_auth_enable and configure_postfix_type == 'template'
 
 - name: rebuilding access.db
   command: "postmap /etc/postfix/access"
