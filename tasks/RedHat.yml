@@ -7,7 +7,7 @@
   tags: [postfix]
   when: >
         ansible_os_family == "RedHat" and
-        ansible_distribution != "Fedora"
+        ansible_distribution != "Fedora"| bool
 
 - name: Checking to make sure mailx is installed on Fedora
   dnf:
@@ -17,7 +17,7 @@
   tags: [postfix]
   when: >
         ansible_os_family == "RedHat" and
-        ansible_distribution == "Fedora"
+        ansible_distribution == "Fedora"| bool
 
 - name: Install Postfix dependencies
   yum:
