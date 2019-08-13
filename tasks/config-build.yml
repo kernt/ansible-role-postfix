@@ -17,17 +17,17 @@
    owner: root
    group: root
    mode: 0755
-  when:  postfix_mailbox_backend_type == "ldap"
+  when: postfix_mailbox_backend_type == "ldap"
 
 # Set sasl dir
 - name: Ensure Direcory for psql
   file:
-   path: /etc/postfix/sasl
+   path: /etc/postfix/psql
    state: directory
    owner: root
    group: root
    mode: 0755
-  when:  postfix_mailbox_backend_type == "psql"
+  when: postfix_mailbox_backend_type == "psql"
 
 # Set sasl dir
 - name: Ensure Direcory for MySQL Backend
@@ -37,7 +37,7 @@
    owner: root
    group: root
    mode: 0755
-#  when: postfix_mailbox_backend_type == "mysql"
+  when: postfix_mailbox_backend_type == "mysql"
 
 # Idee by https://github.com/geerlingguy/ansible-role-postfix/blob/master/tasks/main.yml
 # Just for the Base Configuration

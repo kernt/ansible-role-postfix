@@ -116,6 +116,7 @@ postfix_virtual_maps:
     virtual_alias: ""
 
 ## Postfix User MGMNT beckends
+postfix_mailbox_backend_type: "static"
 mail_users_backends: 
   - mysql
   - ldap

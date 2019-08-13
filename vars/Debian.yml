@@ -8,6 +8,7 @@
       - libsasl2-modules
   when: postfix_smtp_sasl_auth_enable
 
+
 - name:  Ensure saslauthd is started and enabled
   systemd:
     name: saslauthd
