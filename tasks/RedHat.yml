@@ -21,17 +21,17 @@
 
 - name: Install Postfix dependencies
   yum:
-    name: "{{ items|flattern }}"
-    loop:
-      - 'cyrus-sasl'
-      - 'cyrus-sasl-gs2'
-      - 'cyrus-sasl-plain'
-      - 'cyrus-sasl-md5'
-      - 'cyrus-sasl-ldap'
-      - 'cyrus-sasl-gssapi'
-      - 'cyrus-sasl-ntlm'
-      - 'cyrus-sasl-sql'
+    name: "{{ item }}"
     state: "present"
+  loop:
+    - 'cyrus-sasl'
+    - 'cyrus-sasl-gs2'
+    - 'cyrus-sasl-plain'
+    - 'cyrus-sasl-md5'
+    - 'cyrus-sasl-ldap'
+    - 'cyrus-sasl-gssapi'
+    - 'cyrus-sasl-ntlm'
+    - 'cyrus-sasl-sql'
   when:
-    - ansible_os_family == "RedHat" and ansible_distribution != "Fedora"
+    - ansible_os_family == "RedHat" and ansible_distribution != "Fedora|bool"
     - postfix_smtp_sasl_auth_enable
