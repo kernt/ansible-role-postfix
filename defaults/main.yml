@@ -44,9 +44,9 @@ role_for_saslauthd: "ansible_role_saslauthd"
 
 # Postfix testing and Configuration for sasl Satallite Server
 enable_send_testmail: "false"
-postfix_google_username: ""
+postfix_google_username: "max.musterman"
 # Get a token from google: https://security.google.com/settings/security/apppasswords, https://www.linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/
-postfix_google_token: ""
+postfix_google_token: "4534623465676"
 
 ## realy Server Configuration
 # Defines if a relay host should be used
