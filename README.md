@@ -16,13 +16,13 @@ The following Postfix Typs  are tested
   - [] hash canonical test
   - [] hash generic
   - [] hash transport
-- [x] Satellite System (just the base . Not sasl)
-  - [] SASL Auth
-  - [] hash access test
-  - [] hash canonical test
-  - [] hash generic
-  - [] hash transport
-- [] Advanced Backends
+- [x] Satellite System
+  - [x] SASL Auth
+  - [x] hash access test
+  - [x] hash canonical test
+  - [x] hash generic
+  - [x] hash transport
+- [x] Advanced Backends
 - [] Internet Site
   - [] Postgresql
     - [] virtual alias maps
@@ -79,7 +79,7 @@ The following Postfix Typs  are tested
     - [] virtual relocated
     - [] virtual mailbox limits
     - [] virtual recipients
-- [] Satellite System
+- [x] Satellite System
   - [] LDAP
     - [] virtual alias maps
     - [] virtual domain maps
@@ -99,7 +99,7 @@ The following Postfix Typs  are tested
     - [] virtual mailbox limits
     - [] virtual recipients
 - [] local only
-- [] Manage /etc/aliases
+- [x] Manage /etc/aliases
 - [] Include external Roles
   - [] Role for IMAP Dovecot
   - [] Role for IMAP cyrus
@@ -109,11 +109,6 @@ The following Postfix Typs  are tested
   - [] Antispam Pyzor
   - [] Security DKIM
   - [] Security Clamav
-
-Next ToDo
-
-- [] Use external role for explezit Services
-- [] Add SASL because just working currently as a local open Satellite System
 
 ## User Beckend und tabels
 
