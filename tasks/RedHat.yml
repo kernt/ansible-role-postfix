@@ -22,8 +22,8 @@
 - name: Install Postfix dependencies
   yum:
     name:
-      - 'cyrus_sasl'
-      - 'cyrus_sasl-gs2'
+      - 'cyrus-sasl'
+      - 'cyrus-sasl-gs2'
       - 'cyrus-sasl-plain'
       - 'cyrus-sasl-md5'
       - 'cyrus-sasl-ldap'
