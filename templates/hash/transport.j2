@@ -1,4 +1,4 @@
 #example.com	smtp:imap.example.com
 {% for item in postfix_transport_maps %}
-  {{ old_location }} {{ item.new_location }}
+  {{ item.old_location }} {{ item.new_location }}
 {% endfor %}

@@ -123,7 +123,7 @@
   tags: [postfix]
   register: postfix
   notify: handler_postmap_transport
-  when: enable_transport_maps and configure_postfix_type == 'template'
+  when: enable_transport_maps and configure_postfix_type == 'template' | bool
 
 - name: Create postfix configuration 'virtual'
   template:
