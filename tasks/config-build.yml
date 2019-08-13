@@ -113,18 +113,6 @@
   notify: handler_postmap_generic
   when: enable_generic_maps and configure_postfix_type == 'template'
 
-- name: Create postfix configuration 'relocated'
-  template:
-    src: "hash/relocated.j2"
-    dest: "{{ postfix_mail_dir_postfix_config }}/relocatedc"
-    mode: 0644
-    owner: "root"
-    group: "root"
-  tags: [postfix]
-  register: postfix
-  notify: handler_postmap_relocated
-  when: enable_relocated_maps and configure_postfix_type == 'template'
-
 - name: Create postfix configuration 'transport'
   template:
     src: "hash/transport.j2"
@@ -137,7 +125,7 @@
   notify: handler_postmap_transport
   when: enable_transport_maps and configure_postfix_type == 'template'
 
-- name: Create postfix configuration 'transport'
+- name: Create postfix configuration 'virtual'
   template:
     src: "hash/virtual.j2"
     dest: "{{ postfix_mail_dir_postfix_config }}/virtual"
