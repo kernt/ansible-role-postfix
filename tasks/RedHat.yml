@@ -21,7 +21,8 @@
 
 - name: Install Postfix dependencies
   yum:
-    name:
+    name: "{{ item }}"
+    loop:
       - 'cyrus-sasl'
       - 'cyrus-sasl-gs2'
       - 'cyrus-sasl-plain'
