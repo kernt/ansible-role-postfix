@@ -29,10 +29,10 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 smtp_generic_maps = {{ postfix_domain_rewrite_filetype }}:{{ postfix_mail_dir_postfix_config }}/generic
 {% endif %}
 {% if enable_postifx_dkim is defined %}
-smtpd_milters           = inet:127.0.0.1:8891
-non_smtpd_milters       = $smtpd_milters
-milter_default_action   = accept
-milter_protocol         = 2
+smtpd_milters = inet:127.0.0.1:8891
+non_smtpd_milters = $smtpd_milters
+milter_default_action = accept
+milter_protocol = 2
 {% endif %}
 # SASL Auth fuer imap repley
 {% if postfix_smtp_sasl_auth_enable %}
@@ -43,8 +43,8 @@ smtp_sasl_security_options = noanonymous
 smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
 {% endif %}
 {% if enable_postfix_sasl_server_conf %}
- smtpd_sasl_type = {{ postfix_sasl_type }}
- smtpd_sasl_path = smtpd
+smtpd_sasl_type = {{ postfix_sasl_type }}
+smtpd_sasl_path = smtpd
 {% endif %}
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
