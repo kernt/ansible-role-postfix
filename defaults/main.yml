@@ -15,7 +15,8 @@ enable_postfix_domain_rewrite: "false"
 postfix_rewrite_domain: "example.com"
 postfix_mydestination:
   - localhost
-  - {{ ansible_fqdn }}
+  - "{{ ansible_fqdn }}"
+
 # change for Proxy with googleServer to [smtp.gmail.com]:587
 postfix_reley_host: "example.com"
 
