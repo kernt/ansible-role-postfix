@@ -65,7 +65,7 @@ relayhost =  [{{ postfix_reley_host }}]:587
 # add ansible network filter for nic
 {% for mynetwork in postfix_mynetworks -%}
 mynetworks =  {{ mynetwork }},
-{% endif %}
+{% endfor %}
 {% if enable_access_maps is defined %}
 transport_maps = hash:/etc/postfix/access
 {% endif %}
