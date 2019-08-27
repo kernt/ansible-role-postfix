@@ -57,10 +57,15 @@ smtpd_sasl_path = smtpd
 myhostname = {{ ansible_fqdn }}
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-myorigin = /etc/mailname
-mydestination = {{ ansible_fqdn }}, localhost
+# myorigin = /etc/mailname
+{% for destination in postfix_mydestination -%}
+mydestination = {{ destination }},
+{% endfor %}
 relayhost =  [{{ postfix_reley_host }}]:587
-mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+# add ansible network filter for nic
+{% for mynetwork in postfix_mynetworks -%}
+mynetworks =  {{ mynetwork }},
+{% endif %}
 {% if enable_access_maps is defined %}
 transport_maps = hash:/etc/postfix/access
 {% endif %}
