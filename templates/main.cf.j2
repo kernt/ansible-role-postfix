@@ -19,12 +19,15 @@ tls_random_source = dev:/dev/urandom
 smtpd_tls_auth_only = yes
 {% endif %}
 # TLS client parameters
+# Enable STARTTLS encryption
+smtp_tls_security_level = encrypt
+# smtp_tls_CAfile = 
 {% if postfix_use_tls is defined %}
 smtp_use_tls = yes
 smtp_tls_cert_file= {{ postfix_smtp_tls_cert_file }}
 smtp_tls_key_file= {{ postfix_smtp_tls_key_file }}
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
-{% endif %}}
+{% endif %}
 {% if enable_postfix_domain_rewrite is defined %}
 smtp_generic_maps = {{ postfix_domain_rewrite_filetype }}:{{ postfix_mail_dir_postfix_config }}/generic
 {% endif %}
@@ -36,10 +39,13 @@ milter_protocol = 2
 {% endif %}
 # SASL Auth fuer imap repley
 {% if postfix_smtp_sasl_auth_enable %}
+# Enable SASL authentication
 smtp_sasl_auth_enable = yes
 {% endif %}
 {% if enable_postfix_sasl_client_conf %}
+# Disallow methods that allow anonymous authentication
 smtp_sasl_security_options = noanonymous
+# Location of sasl_passwd
 smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
 {% endif %}
 {% if enable_postfix_sasl_server_conf %}

@@ -1,5 +1,6 @@
 ---
 # https://docs.ansible.com/ansible/latest/modules/mail_module.html#mail-module
+# You need a test user
 
 - name: Sending an e-mail using Gmail SMTP servers
   mail:

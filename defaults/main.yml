@@ -13,6 +13,7 @@ postfix_mail_dir_storage: "/srv/mail"
 postfix_config_file: /etc/postfix/main.cf
 enable_postfix_domain_rewrite: "false"
 postfix_rewrite_domain: "example.com"
+# change for Proxy with googleServer to [smtp.gmail.com]:587
 postfix_reley_host: "example.com"
 
 # Postfix service Configuration
