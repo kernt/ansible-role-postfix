@@ -88,7 +88,7 @@
     group: "root"
   tags: [postfix]
   notify: handler_postmap_access
-  when: enable_access_maps and configure_postfix_type == "template"
+  when: enable_access_maps and configure_postfix_type == "template" | bool
 
 - name: Create canonical maps if enabled
   template:
@@ -109,7 +109,7 @@
     owner: "root"
     group: "root"
   tags: [postfix]
-  register: postfix
+#  register: postfix
   notify: handler_postmap_generic
   when: enable_generic_maps and configure_postfix_type == 'template' | bool
 
@@ -121,7 +121,7 @@
     owner: "root"
     group: "root"
   tags: [postfix]
-  register: postfix
+#  register: postfix
   notify: handler_postmap_transport
   when: enable_transport_maps and configure_postfix_type == 'template' | bool
 
@@ -133,10 +133,9 @@
     owner: "root"
     group: "root"
   tags: [postfix]
-  register: postfix
   notify: handler_postmap_virtual
-  when: enable_virtual_maps
-
+  when: enable_virtual_maps is defind
+  
 # https://www.linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/#generate-an-app-password-for-postfix
 # change mod to 0600
 - name: Create postfix configuration sasl 'passwd' file
@@ -147,49 +146,6 @@
     owner: "root"
     group: "root"
   tags: [postfix]
-  register: postfix
+#  register: postfix
   notify: handler_postmap_sasl_passwd
-  when: postfix_smtp_sasl_auth_enable and configure_postfix_type == 'template' and enable_postfix_sasl_client_conf
-
-#- name: rebuilding access.db
-#  command: "postmap /etc/postfix/access"
-#  tags: [postfix]
-#  notify: restart postfix
-#  when: >
-#        postfix.changed and
-#        postfix_domain_rewrite_filetype == 'hash'
-
-#- name: rebuilding canonical.db
-#  command: "postmap /etc/postfix/canonical"
-#  tags: [postfix]
-#  notify: handler_postmap_canonical
-#  when: >
-#        postfix.changed and
-#        postfix_domain_rewrite_filetype == 'hash'
-
-#- name: rebuilding generic.db
-#  command: "postmap /etc/postfix/generic"
-#  tags: [postfix]
-#  notify: handler_postmap_generic
-#  when: >
-#        postfix.changed and
-#        postfix_domain_rewrite_filetype == 'hash'
-
-#- name: rebuilding transport.db
-#  command: "postmap /etc/postfix/transport"
-#  tags: [postfix]
-#  notify: handler_postmap_transport
-#  when: >
-#        postfix.changed and
-#        postfix_domain_rewrite_filetype == 'hash'
-
-#- name: rebuilding transport.db
-#  command: "postmap /etc/postfix/virtual"
-#  tags: [postfix]
-#  notify: handler_postmap_virtual
-#  when: >
-#        postfix.changed and
-#        postfix_domain_rewrite_filetype == 'hash'
-
-## backends
-# ldap
+  when: postfix_smtp_sasl_auth_enable and configure_postfix_type == 'template' and enable_postfix_sasl_client_conf | bool

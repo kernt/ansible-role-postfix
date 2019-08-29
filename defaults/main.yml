@@ -104,15 +104,15 @@ postfix_relocated_maps: []
 # transport
 enable_transport_maps: "false"
 enable_transport_maps_file: "transport"
-postfix_transport_maps: 
-  - old_location: ""
-    new_location: ""
+postfix_transport_maps: []
+#  - old_location: ""
+#    new_location: ""
 
 # virtual 
 enable_virtual_maps: "false"
-postfix_virtual_maps:
-  - virtual_domain: ""
-    virtual_alias: ""
+postfix_virtual_maps: []
+#  - virtual_domain: ""
+#    virtual_alias: ""
 
 ## Postfix User MGMNT beckends
 postfix_mailbox_backend_type: "static"

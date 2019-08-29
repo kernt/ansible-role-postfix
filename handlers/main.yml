@@ -44,4 +44,3 @@
   systemd: 
     name: saslauthd
     state: "restarted"
-
