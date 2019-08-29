@@ -134,10 +134,12 @@
     group: "root"
   tags: [postfix]
   notify: handler_postmap_virtual
-  when: enable_virtual_maps is defind
+  when: enable_virtual_maps and configure_postfix_type == 'template' | bool
   
 # https://www.linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/#generate-an-app-password-for-postfix
 # change mod to 0600
+#
+#
 - name: Create postfix configuration sasl 'passwd' file
   template:
     src: "sasl/passwd.j2"
