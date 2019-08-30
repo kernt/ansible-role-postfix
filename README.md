@@ -11,11 +11,11 @@ The following Postfix Typs  are tested
   - [] hash canonical test
   - [] hash generic
   - [] hash transport
-- [] Internet with Smarthost
-  - [] hash access test
-  - [] hash canonical test
-  - [] hash generic
-  - [] hash transport
+- [x] Internet with Smarthost
+  - [x] hash access test
+  - [x] hash canonical test
+  - [x] hash generic
+  - [x] hash transport
 - [x] Satellite System
   - [x] SASL Auth
   - [x] hash access test
@@ -98,9 +98,15 @@ The following Postfix Typs  are tested
     - [] virtual relocated
     - [] virtual mailbox limits
     - [] virtual recipients
-- [] local only
+- [] local Testet
+   - [] Postfix Satellite System
+   - [x] Postfix Internet with Smarthost
+      - [x] Postfix Internet with Smarthost with Google server SASL passwd
+   - [] Postfix Internet Site
 - [x] Manage /etc/aliases
+  - [] add backup for /etc/aliases
 - [] Include external Roles
+  - [x] Ansible file for external rols
   - [] Role for IMAP Dovecot
   - [] Role for IMAP cyrus
   - [] Antispam AMaViS
@@ -110,7 +116,7 @@ The following Postfix Typs  are tested
   - [] Security DKIM
   - [] Security Clamav
 
-## User Beckend und tabels
+## User Beckend and tabels
 
 - alias = local email alias and mailman alias information.
 - relocated = relocated user email address maps
