@@ -7,7 +7,6 @@
 - name: Checking to make sure mailutils is installed if Debian os is used.
   apt:
     name:
-      - 'mailutils'
-    state: "present"
-  tags: [postfix]
+      - mailutils
+  state: "present"
   when: ansible_os_family == 'Debian'

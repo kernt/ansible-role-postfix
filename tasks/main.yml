@@ -19,13 +19,13 @@
   package:
     name: postfix
     state: present
-  tags: [postfix]
+  tags: postfix
 
 - name: Ensure postfix is started and enabled
-  systemd:
+  service:
     name: postfix
-    state: "{{ postfix_service_state }}"
-    enabled: "{{ postfix_service_enabled }}"
+    state: "started"
+    enabled: "true"
 
 - name: Include tasks for testmail
   include_tasks: testmail.yml
