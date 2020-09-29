@@ -1,8 +1,9 @@
 ---
+
 - name: Checking to make sure mailx is installed if RedHat not Fedora is used.
   yum:
     name:
-      - 'mailx'
+      - "mailx"
     state: "present"
   tags: 
     - postfix
@@ -12,8 +13,7 @@
 
 - name: Checking to make sure mailx is installed on Fedora
   dnf:
-    name:
-      - 'mailx'
+    name: "mailx"
     state: "present"
   tags:
     - postfix

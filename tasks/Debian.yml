@@ -1,8 +1,5 @@
 ---
 # https://wiki.debian.org/PostfixAndSASL
-- name: Upgrade packages
-  package: 
-    upgrade: yes
 
 - name: Checking to make sure mailutils is installed if Debian os is used.
   apt:
