@@ -24,7 +24,7 @@ The following Postfix Typs  are tested
   - [x] hash transport
 - [x] Advanced Backends
 - [] Internet Site
-  - [] Postgresql
+  - [x] Postgresql
     - [] virtual alias maps
     - [] virtual domain maps
     - [] virtual groups
